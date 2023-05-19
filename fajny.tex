@@ -53,6 +53,17 @@ columnsep=1cm % odstęp między kolumnami
 \author{Janusz Chmaruk}%autor
 \setcounter{secnumdepth}{3}%głębokość liczenia roździałów
 
+% PRZYKŁAD LICZNIKA ZADAŃ
+\newcounter{zadanie}
+\newenvironment{zadanie}[1]{
+   \refstepcounter{zadanie}
+   \subsection*{Zadanie \thezadanie: #1}
+   \addcontentsline{toc}{subsection}{Zadanie \thezadanie: #1}
+}{}
+
+
+% DŁUGIE LISTINGI
+\newenvironment{longlisting}{\captionsetup{type=listing}}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
