@@ -16,6 +16,7 @@ columnsep=1cm % odstęp między kolumnami
 \usepackage{listings} % punktowanie
 % \usepackage{indentfirst} % dawanie akapitu na początku
 \usepackage{caption} % podpisy
+\usepackage{subcaption} % podpisy do subfigure
 \usepackage{siunitx} % jednostki si
 \usepackage{minted} % ładne kody naprzyklad matlaba
 \setminted{linenos=true,frame=single,breaklines=true,breaksymbolleft=,style=vs}
@@ -52,9 +53,11 @@ middlelinewidth=1pt,
 \usepackage{enumitem} % podpunkty customowe
 
 \usepackage{pgfplots}[compat=1.18] % wykresy
+
+
 %%%%%%%%%%%%%% koniec pakietów %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\boldmath%pogrubiona matma
 
 \title{Fajny ten tytuł}%tytuł
 \date{\today}%%data
@@ -63,7 +66,7 @@ middlelinewidth=1pt,
 
 % PRZYKŁAD LICZNIKA ZADAŃ
 \newcounter{zadanie}
-\newenvironment{zadanie}[1]{
+\newenvironment{zadanie}[1][]{
    \refstepcounter{zadanie}
    \subsection*{Zadanie \thezadanie#1}
    \addcontentsline{toc}{subsection}{Zadanie \thezadanie#1} % dodanie do spisu treści
@@ -89,7 +92,7 @@ middlelinewidth=1pt,
 % \clearpage
 
 
-\begin{zadanie}{}
+\begin{zadanie}
     Omówić zasadę doboru częstotliwości próbkowania; Zilustrować na przykładzie sygnału $t=0:1$; $y=sin(2*\pi*3*t)$;
     narysuj sygnał i widmo sygnału po spróbkowaniu. \textbf{4p}
 \end{zadanie}\\
@@ -117,7 +120,7 @@ middlelinewidth=1pt,
         \end{tikzpicture}
     \end{mdframed}
 
-\begin{zadanie}{}
+\begin{zadanie}
     Dla filtra o następującej strukturze:
     \begin{figure}[H]
         \centering
@@ -135,8 +138,8 @@ middlelinewidth=1pt,
 
 \begin{mdframed}[backgroundcolor=gray!20,roundcorner=7pt]
     \begin{enumerate}[label=\alph*)]
-        \item Filtr jest SOI, rząd filtra to 3. (CHYBA)
-        \item odpowiedź impulsowa to: $h(k) = \delta(2) + (-1)*\delta(k-1) + 3*\delta(k-3)$ (CHYBA, NIE WIEM)
+        \item Filtr jest SOI, rząd filtra to 3. 
+        \item odpowiedź impulsowa to: $h(k) = 2*\delta(k) + (-1)*\delta(k-1) + 3*\delta(k-3)$ 
         \item Odpowiedź sygnału:
             \begin{table}[H]
                 \centering
@@ -146,26 +149,29 @@ middlelinewidth=1pt,
                     0 & 0 \\ \hline
                     1 & 2 \\ \hline
                     2 & -1 \\ \hline
-                    3 & 2 \\ \hline
-                    4 & 2 \\ \hline
+                    3 & -2 \\ \hline
+                    4 & 4 \\ \hline
                     5 & 0 \\ \hline
-                    6 & 3 \\ \hline
+                    6 & -3 \\ \hline
                     7 & 0 \\ \hline
                 \end{tabular}
             \end{table}
-        \item Równanie różnicowe:
-            $$y(k) = x(k) + 2x(k-1) - x(k-2) + 3x(k-3)$$ (to jest źle, COPILOT)
-        \item Transmitacja filtra:$$$$
+        \item Równanie różnicowe:$$2x(k)-1x(k-1)+3x(k-3)$$
+            
+        \item Transmitacja filtra:$$y(k) = 2 + (-1)z^{-1} + 3z^{-3}$$
             Charakterystyka częstotliwościowa filtra:$$$$
+            
         \item Filtr jest stabilny
     \end{enumerate}
-    
-    
 \end{mdframed}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{image.png}
+\end{figure}
 
 
 
-\begin{zadanie}{}
+\begin{zadanie}
     Na przykładzie filtru dolnoprzepustowego omówić podstawowe cechy ciągłego filtru Czebyszewa. Porównać charakterystyki częstotliwościowe filtru analogowego i cyfrowego. \textbf{3p}
 \end{zadanie}
 
@@ -178,32 +184,135 @@ przepustowym oraz równomiernie zafalowana w zaporowym.\\
 Filtr Czebyszewa zwykle ma niższy stopień niż filtr Butterwortha przy tych samych
 wymaganiach (dzięki bardziej stromej charakterystyce w paśmie przejściowym).\\
 
-(NIE WIEM CZY TO JEST DOBRZE)\\
 Porównanie:
-\begin{itemize}
-    \item Porównując filtry analogowe i cyfrowe, istnieją pewne kluczowe różnice:
+% \begin{itemize}
+%     \item Porównując filtry analogowe i cyfrowe, istnieją pewne kluczowe różnice:
 
-    \item Dokładność: Filtry cyfrowe mogą być bardziej dokładne niż ich odpowiedniki analogowe, ponieważ nie są podatne na wpływ szumów i zakłóceń analogowych.
+%     \item Dokładność: Filtry cyfrowe mogą być bardziej dokładne niż ich odpowiedniki analogowe, ponieważ nie są podatne na wpływ szumów i zakłóceń analogowych.
     
-    \item Złożoność realizacji: Filtry cyfrowe mogą być trudniejsze do zrealizowania w praktyce, ponieważ wymagają skomplikowanych układów cyfrowych i procesorów sygnałowych.
+%     \item Złożoność realizacji: Filtry cyfrowe mogą być trudniejsze do zrealizowania w praktyce, ponieważ wymagają skomplikowanych układów cyfrowych i procesorów sygnałowych.
     
-    \item Zakres częstotliwości: Filtry analogowe mogą pracować z sygnałami o wyższych częstotliwościach niż filtry cyfrowe, które są ograniczone przez częstotliwość próbkowania.
+%     \item Zakres częstotliwości: Filtry analogowe mogą pracować z sygnałami o wyższych częstotliwościach niż filtry cyfrowe, które są ograniczone przez częstotliwość próbkowania.
     
-    \item Zastosowania: Filtry analogowe są często stosowane w radiotechnice i innych aplikacjach, które wymagają przetwarzania sygnałów w czasie rzeczywistym. Filtry cyfrowe są często stosowane w aplikacjach, które wymagają wysokiej dokładności i elastyczności, takich jak przetwarzanie obrazów i dźwięku.
+%     \item Zastosowania: Filtry analogowe są często stosowane w radiotechnice i innych aplikacjach, które wymagają przetwarzania sygnałów w czasie rzeczywistym. Filtry cyfrowe są często stosowane w aplikacjach, które wymagają wysokiej dokładności i elastyczności, takich jak przetwarzanie obrazów i dźwięku.
+% \end{itemize}
+Zalety transformacji biliniowej (z analogowego na cyfrowy):
+\begin{itemize}
+    \item zachowana stabilność,
+    \item brak efektu nakładania się widm.
 \end{itemize}
 
+Wady transformacji biliniowej:
+\begin{itemize}
+    \item zniekształcenie osi częstotliwości.
+\end{itemize}
     
+\textbf{Chat GPT:}\\
+Filtry Czebyszewa są rodzajem filtrów, które zapewniają optymalizację między
+szerokością pasma przenoszenia a tłumieniem w paśmie zaporowym. Są one nazwane
+na cześć rosyjskiego matematyka Pafnutiego Czebyszewa. Podstawowe cechy filtrów
+Czebyszewa to:
+
+Ryple (fale) w paśmie przenoszenia: Filtry Czebyszewa typu 1 mają
+charakterystyczną cechę, która polega na tym, że mają ryple (fluktuacje) w
+paśmie przenoszenia. Wielkość tych rypli jest jednym z parametrów projektowania
+filtru. Większe ryple prowadzą do szybszego tłumienia poza paśmie przenoszenia,
+ale kosztem większych zniekształceń w paśmie przenoszenia.
+
+Szybkość tłumienia: Filtry Czebyszewa są znane z tego, że zapewniają szybkie
+tłumienie poza paśmie przenoszenia. W porównaniu do innych typów filtrów, takich
+jak filtry Butterwortha, filtry Czebyszewa mogą osiągnąć tłumienie o określonej
+wielkości przy mniejszej liczbie stopni (rzędu filtru).
+
+Optymalizacja Czebyszewa: Filtry Czebyszewa są zaprojektowane tak, aby
+minimalizować maksymalne odchylenie od idealnej charakterystyki w określonym
+zakresie częstotliwości. Oznacza to, że filtr Czebyszewa zapewnia optymalne
+rozwiązanie problemu Czebyszewa.
+
+Charakterystyki częstotliwościowe filtrów analogowych i cyfrowych różnią się
+pod wieloma względami:
+
+Zakres częstotliwości: Filtry analogowe działają na sygnałach ciągłych i mogą
+przetwarzać sygnały o dowolnej częstotliwości, ograniczonej tylko przez
+charakterystyki sprzętowe. Z drugiej strony, filtry cyfrowe działają na
+sygnałach dyskretnych i są ograniczone przez częstotliwość Nyquista, która jest
+połową częstotliwości próbkowania.
+
+Stabilność: Filtry analogowe mogą mieć problemy ze stabilnością, zwłaszcza dla
+filtrów o wysokim rzędzie. Filtry cyfrowe są zazwyczaj bardziej stabilne,
+chociaż mogą wystąpić problemy ze stabilnością w przypadku filtrów IIR.
 \end{mdframed}
 
-\begin{zadanie}{}
+\begin{zadanie}
     Podać warunek liniowej fazy filtrów SOI dla N parzystego i nieparzystego i omówić jaki wpływ ma liniowa faza na filtrowany sygnał? \textbf{3p}
 \end{zadanie}
+\begin{mdframed}
+    % Filtrowanie liniowofazowe jest możliwe, gdy odpowiedź impulsowa systemu jest symetryczna lub antysymetryczna.
+    % Warunek liniowości fazy:
+    % %Symetryczny (typ I i II): 
+    % $h[k] = h[N - k]$ dla wszystkich $k$, gdzie $N$ to
+    % rzęd filtru.
 
+Filtr FIR (SOI) ma liniową charakterystykę fazy, gdy jest symetryczny lub
+antysymetryczny, co znaczy, że jego odpowiedź impulsowa spełnia jeden z
+poniższych warunków:\\
+ Symetryczny (typ I i II): $h[n] = h[N - n]$ dla wszystkich $n$,
+gdzie $N$ to rzęd filtru.\\
+ Antysymetryczny (typ III i IV): $h[n] = -h[N - n]$ dla
+wszystkich $n$. \\
+Filtry FIR, które spełniają te warunki, nazywane są filtrami o
+liniowej fazie.\\
+ Liniowa faza jest pożądana, ponieważ utrzymuje relacje fazowe
+pomiędzy różnymi składowymi częstotliwościowymi sygnału. Innymi słowy, wszystkie
+składowe częstotliwościowe sygnału są przesunięte w czasie o tę samą ilość, co
+oznacza, że kształt sygnału jest zachowany po filtracji. To jest szczególnie
+istotne w wielu zastosowaniach, takich jak przetwarzanie dźwięku i obrazu, gdzie
+zachowanie kształtu sygnału jest kluczowe. W przeciwnym razie, jeśli faza nie
+jest liniowa, różne składowe częstotliwościowe mogą być przesunięte o różne
+ilości, co prowadzi do zniekształceń, takich jak ``rozmycie'' sygnału.\\
+$$n=k$$
+    
+\end{mdframed}
 \begin{zadanie}{}
     Podać definicje funkcji autokorelacji R, funkcji autokowariancji C ergodycznego \textbf{1p}, stacjonarnego szeregu losowego X. Wyznaczyć wartość średnią tego procesu oraz funkcję autokorelacji z dostępnej realizacji czasowej $x = [3,5,2,4,2]$ tego procesu losowego. Narysować tę funkcję autokorelacji. \textbf{3p}
     Wyznaczyć macierz autokorelacji R. \textbf{2p}
 \end{zadanie}
 
+\begin{mdframed}
+    Funkcja autokorelacji jest miarą podobieństwa między wartością sygnału w danym
+    czasie a wartościami sygnału w innych czasach. Definiuje ona zależność między
+    dwiema kolejnymi wartościami sygnału i mierzy, jak bardzo te wartości są
+    skorelowane. Funkcja autokowariancji mierzy kowariancję między dwiema
+    wartościami sygnału w różnych momentach czasowych. Jest to szczególny przypadek
+    funkcji autokorelacji, w którym oczekiwana wartość sygnału jest równa zero.
+    Szereg losowy X jest nazywany stacjonarnym jeśli jego średnia nie zależy od
+    czasu oraz funkcja autokorelacji zależy tylko od różnicy między czasami, a nie
+    od samych czasów. Stacjonarny szereg losowy ergodyczny spełnia dodatkowo warunek,
+    że wartości średnie uzyskane na podstawie jednych realizacji są reprezentatywne
+    dla wartości średnich uzyskanych na podstawie innych realizacji.
+    
+    $$(3+5+2+4+2)/5 = 3.2$$
+    
+    $$R(0) = (1/5) * [(3-3.2)^2 + (5-3.2)^2 + (2-3.2)^2$$$$ + (4-3.2)^2 + (2-3.2)^2] = 1.76$$
+    
+    $$R(1) = (1/4) * [(3-3.2)(5-3.2) + (5-3.2)(2-3.2)$$$$ + (2-3.2)(4-3.2) + (4-3.2)(2-3.2)] = -0.8$$
+    
+    $$R(2) = (1/3) * [(3-3.2)(2-3.2) + (5-3.2)(4-3.2)$$$$ + (2-3.2)(2-3.2)] = 0$$
+    
+    $$R(3) = (1/2) [(3-3.2)(4-3.2)$$$$ + (5-3.2)(2-3.2)] = -0.8$$
+    
+    $$R(4) = (1/1) * [(3-3.2)*(2-3.2)] = 0$$
+
+    $$R = \begin{bmatrix}
+        1.76 & -0.8 & 0 & -0.8 & 0 \\
+        -0.8 & 1.76 & -0.8 & 0 & -0.8 \\
+        0 & -0.8 & 1.76 & -0.8 & 0 \\
+        -0.8 & 0 & -0.8 & 1.76 & -0.8 \\
+        0 & -0.8 & 0 & -0.8 & 1.76
+        \end{bmatrix}$$
+        
+
+\end{mdframed}
 
 \begin{zadanie}{}
 Filtr Wienera zazwyczaj jest filtrem SOI i pracuje w strukturze
@@ -221,6 +330,30 @@ Podać wskaźnik jakości optymalizacji, który prowadzi do uzyskania optymalneg
 \end{zadanie}
 
 
+\begin{mdframed}
+    Filtr Wienera jest zaprojektowany do minimalizacji średniej kwadratowej
+    błędu (MSE - mean square error) między sygnałem oczekiwanym a rzeczywistym
+    sygnałem wyjściowym. MSE jest wskaźnikiem jakości optymalizacji, który jest
+    zdefiniowany jako: $E{(d(n) - y(n))^2}$ \\
+    gdzie:\\
+    $E\{\dots\}$ oznacza wartość oczekiwaną (średnią),\\ 
+    $d(n)$ to oczekiwany (docelowy) sygnał,\\
+    $y(n)$ to rzeczywisty sygnał wyjściowy.\\
 
+    Równanie Wienera-Hopfa Równanie Wienera-Hopfa to kluczowe równanie w teorii filtrów Wienera, które pozwala
+    na wyznaczenie optymalnych współczynników filtru. W przypadku liniowego,
+    czasowo niezmiennego filtru Wienera, równanie Wienera-Hopfa ma postać: $R_{xx}
+    * h = r_{dx}$ gdzie:\\
+     $R_{xx}$ to autokorelacyjna macierz sygnału wejściowego $x$,\\
+     $h$ to wektor współczynników filtru, który chcemy optymalizować,\\
+      $r_{dx}$ to wektor
+    krzyżowej funkcji korelacji między sygnałem wejściowym x a sygnałem
+    docelowym d.\\
+
+     Rozwiązaniem tego równania jest wektor optymalnych
+    współczynników filtru h. Możemy to zrobić, na przykład, za pomocą metody
+    odwracania macierzy lub innych technik rozwiązywania równań liniowych. \\
+
+\end{mdframed}
 
 \end{document}
