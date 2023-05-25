@@ -72,6 +72,14 @@ middlelinewidth=1pt,
    \addcontentsline{toc}{subsection}{Zadanie \thezadanie#1} % dodanie do spisu treści
 }{}
 
+% PRZYKŁAD LICZNIKA ROZWIĄZAŃ
+\newcounter{rozwiazanie}
+\newenvironment{rozwiazanie}[1][]{
+   \refstepcounter{rozwiazanie}
+   \subsection*{Rozwiazanie zadania \therozwiazanie#1}
+   \addcontentsline{toc}{subsection}{Rozwiazanie zadania \therozwiazanie#1} % dodanie do spisu treści
+}{}
+
 
 % DŁUGIE LISTINGI
 \newenvironment{longlisting}{\captionsetup{type=listing}}{}
@@ -84,276 +92,216 @@ middlelinewidth=1pt,
 
 \begin{document}%zaczyna się dokument
 
-% \null%
-% \includepdf[pages={1}]{Szablon_Projektu.pdf}
+\null%
+\includepdf[pages={1}]{Szablon_Projektu.pdf}
 \clearpage%następna strona ogółem
 
 \tableofcontents%spis treści
 % \clearpage
 
+\section{Cel ćwiczenia}
+Celem ćwiczenia jest zapoznanie studentów z serwerem parametrów w systemie ROS.
 
-\begin{zadanie}
-    Omówić zasadę doboru częstotliwości próbkowania; Zilustrować na przykładzie sygnału $t=0:1$; $y=sin(2*\pi*3*t)$;
-    narysuj sygnał i widmo sygnału po spróbkowaniu. \textbf{4p}
-\end{zadanie}\\
+\section{Przebieg ćwiczenia}
+W ramach ćwiczenia zapoznamy się z:
+\begin{itemize}
+    \item definiowaniem parametrów,
+    \item obsługą parametrów w językach Python i C++.
+\end{itemize}
 
-    \begin{mdframed}[backgroundcolor=gray!20,]
-        Częstość próbkowania musi być większa niż dwukrotność częstotliwości najwyższej składowej sygnału.
-        $$f_{max} = 3$$
-        $$f_{\text{próbkowania}} > 2*f_{max}$$
-        $$f_{\text{próbkowania}} > 6$$
+\section{Zadania do realizacji}
+%numeracja z liczbami
 
-        \begin{tikzpicture}
-            \centering
-            \begin{axis}[
-                xlabel={$t$},
-                ylabel={$y$},
-                xmin=0, xmax=1,
-                ymin=-1, ymax=1,
-                xtick={0,0.1,0.2,...,1}, % Ustalanie kroków próbkowania
-                domain=0:1,
-                samples=100
-            ]
-            \addplot[blue] {sin(deg(6*x))};
-            \addplot[red, only marks, mark=*, mark size=1.5pt, samples at={0,0.1,0.2,...,1}] {sin(deg(6*x))};
-            \end{axis}
-        \end{tikzpicture}
-    \end{mdframed}
-
-\begin{zadanie}
-    Dla filtra o następującej strukturze:
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=1\linewidth]{Diagram bez tytułu.drawio.pdf}
-    \end{figure}
-    \begin{enumerate}[label=\alph*)]
-        \item podać rodzaj(SOI/NOI) i rząd filtra; \textbf{1p}
-        \item wyznaczyć odpowiedź impulsową; \textbf{1p}
-        \item narysować odpowiedź na sygnał: $x(k) = \delta (k-1)-\delta(k −3)$; \textbf{4p}
-        \item wyznaczyć równanie różnicowe opisujące filtr; \textbf{2p}
-        \item wyznaczyć transmitancję filtra; wyznaczyć charakterystykę częstotliwościową filtra; \textbf{2p}
-        \item określić stabilność filtra; \textbf{1p}
-    \end{enumerate}
+\begin{zadanie}[: Modyfikacja przykładowego programu]
+    Sprawdź, jak działają umieszczone powyżej programy. Zmodyfikuj program tak, aby reagował na zmianę wartości parametrów w trakcie działania programu.
 \end{zadanie}
 
-\begin{mdframed}[backgroundcolor=gray!20,roundcorner=7pt]
-    \begin{enumerate}[label=\alph*)]
-        \item Filtr jest SOI, rząd filtra to 3. 
-        \item odpowiedź impulsowa to: $h(k) = 2*\delta(k) + (-1)*\delta(k-1) + 3*\delta(k-3)$ 
-        \item Odpowiedź sygnału:
-            \begin{table}[H]
-                \centering
-                \begin{tabular}{|c|c|}
-                    \hline
-                    k & y(k) \\ \hline
-                    0 & 0 \\ \hline
-                    1 & 2 \\ \hline
-                    2 & -1 \\ \hline
-                    3 & -2 \\ \hline
-                    4 & 4 \\ \hline
-                    5 & 0 \\ \hline
-                    6 & -3 \\ \hline
-                    7 & 0 \\ \hline
-                \end{tabular}
-            \end{table}
-        \item Równanie różnicowe:$$2x(k)-1x(k-1)+3x(k-3)$$
-            
-        \item Transmitacja filtra:$$y(k) = 2 + (-1)z^{-1} + 3z^{-3}$$
-            Charakterystyka częstotliwościowa filtra:$$$$
-            
-        \item Filtr jest stabilny
+\begin{zadanie}[: Regulator PID]
+
+    Napisz program implementujący regulator PID\@. Użyj parametrów systemu
+    ROS do modyfikacji wartości współczynników kp, ki i kd, a także progów
+    saturacji regulatora. Regulator PID (Proportional - Integral -
+    Derivative) jest klasycznym regulatorem stosowanym w wielu zastosowaniach
+    przemysłowych. Odpowiedź tego regulatora wyznaczana jest na podstawie
+    sygnału błędu, całki tego sygnału, oraz jego pochodnej (najczęściej
+    wyznaczanej metodami numerycznymi). Jedną z prostych możliwych realizacji
+    algorytmu regulatora PID można przedstawić przy pomocy poniższego pseudokodu:
+    \begin{verbatim}
+e := y_zadane - y_mierzone
+e_i := e_i + e * dt
+e_d := (e - e_poprzednie) / dt
+e_poprzednie := e
+u := kp * e + ki * e_i + kd * e_d
+    \end{verbatim}
+    W powyższym pseudokodzie, y\_zadane oznacza wartość zadaną sygnału
+    regulowanego, a y mierzone jego aktualną wartość mierzoną. Sygnał e oznacza
+    aktualną wartość błędu, ei - całkę błędu, a ed - jego pochodną obliczoną
+    metodą różnic skończonych. epoprzednie służy do przechowania wartości
+    sygnału błędu w poprzednim kroku czasowym. Długość tego kroku czasowego
+    oznaczono jako dt. Sygnał wyjściowy regulatora u jest wypracowywany jako
+    ważona współczynnikami kp, ki, kd suma sygnału błędu, całki oraz różniczki
+    tego sygnału. Powyższy algorytm powinien być wykonywany w pętli o
+    odpowiednio dobranym kroku czasowym dt. W nieco bardziej zaawansowanych
+    realizacjach regulatora PID istnieje możliwość ograniczenia wartości sygnału
+    sterującego regulatora, na przykład przez zdefiniowanie jego górnej i dolnej
+    granicy (zob. saturacja). Dodatkowo, w celu zapobieżenia problemowi
+    nawijania się regulatora (wind-up), umożliwia się zerowanie wartości całki
+    sygnału błędu. (*) Dodaj serwis umożliwiający reset wartości członu
+    całkującego.
+\end{zadanie}
+
+\section{Realizacja zadań}
+
+\begin{rozwiazanie}[: Modyfikacja przykładowego programu]
+\end{rozwiazanie}
+
+Działanie skryptu jest następujące:
+
+\begin{enumerate}
+    \item Importuje odpowiednie moduły Pythona: \texttt{rospy}, \texttt{std\_msgs.msg} i \texttt{math}. \texttt{rospy} to biblioteka do interakcji z ROS używając Pythona, \texttt{std\_msgs.msg} to standardowe wiadomości ROS, które mogą być używane do komunikacji między węzłami, a \texttt{math} to standardowa biblioteka Pythona dla matematycznych operacji.
+    
+    \item Inicjalizuje węzeł ROS o nazwie 'falka'. Węzeł to jednostka wykonawcza w systemie ROS.
+
+    \item Pobiera parametry 'A' i 'w' z serwera parametrów ROS. Parametry te są używane do określenia amplitudy i częstotliwości dla funkcji sinus, która jest używana później w skrypcie.
+
+    \item Tworzy obiekt wydawcy o nazwie 'y', który publikuje wiadomości typu \texttt{Float32} z kolejką o rozmiarze 10. Wydawca to obiekt, który publikuje wiadomości na określony temat w systemie ROS.
+
+    \item Ustala częstotliwość wysyłania wiadomości na 10Hz.
+
+    \item Inicjalizuje zmienną $t$ na 0.
+
+    \item Wchodzi w pętlę, która jest wykonywana, dopóki węzeł ROS nie jest zamykany. W trakcie każdego cyklu pętli:
+    \begin{enumerate}
+        \item Pobiera ponownie parametry 'A' i 'w' z serwera parametrów, co pozwala na ich dynamiczną aktualizację w trakcie działania węzła.
+        
+        \item Oblicza wartość $y$ jako $A \cdot \sin(w \cdot t)$. Jest to wartość funkcji sinus zależnej od czasu, gdzie $A$ jest amplitudą, $w$ jest częstotliwością, a $t$ jest aktualnym czasem.
+        
+        \item Tworzy nową wiadomość typu \texttt{Float32} i ustawia jej dane na obliczoną wartość $y$.
+        
+        \item Publikuje tę wiadomość.
+        
+        \item Zasypia na określony czas, aby utrzymać żądaną częstotliwość publikacji wiadomości.
+        
+        \item Inkrementuje $t$ o 1.
     \end{enumerate}
-\end{mdframed}
+\end{enumerate}
+
+\begin{longlisting}
+    \begin{minted}{python}
+#!/usr/bin/python3
+
+import rospy
+from std_msgs.msg import Float32
+import math
+
+rospy.init_node('falka')
+A = rospy.get_param('A')
+w = rospy.get_param('w')
+pub = rospy.Publisher('y', Float32, queue_size=10)
+rate = rospy.Rate(10.0)
+t = 0
+
+while not rospy.is_shutdown():
+        A = rospy.get_param('A')
+        w = rospy.get_param('w')
+        y = A * math.sin(w * t)
+        msg = Float32()
+        msg.data = y
+        pub.publish(msg)
+        rate.sleep()
+        t += 1
+    \end{minted}
+\end{longlisting}
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{image.png}
+    \includegraphics[width=1\linewidth]{focie/1.png}
+    \includegraphics[width=1\linewidth]{focie/2.png}
+    \caption{Wynik działania skryptu}
+    \label{fig:1}
 \end{figure}
 
 
-
-\begin{zadanie}
-    Na przykładzie filtru dolnoprzepustowego omówić podstawowe cechy ciągłego filtru Czebyszewa. Porównać charakterystyki częstotliwościowe filtru analogowego i cyfrowego. \textbf{3p}
-\end{zadanie}
-
-\begin{mdframed}[backgroundcolor=gray!20,]
-    
-    Charakterystyka amplitudowa flitru jest równomiernie zafalowana w paśmie przepustowym oraz
-monotoniczna w zaporowym lub charakterystyka amplitudowa monotoniczna w paśmie
-przepustowym oraz równomiernie zafalowana w zaporowym.\\
-
-Filtr Czebyszewa zwykle ma niższy stopień niż filtr Butterwortha przy tych samych
-wymaganiach (dzięki bardziej stromej charakterystyce w paśmie przejściowym).\\
-
-Porównanie:
-% \begin{itemize}
-%     \item Porównując filtry analogowe i cyfrowe, istnieją pewne kluczowe różnice:
-
-%     \item Dokładność: Filtry cyfrowe mogą być bardziej dokładne niż ich odpowiedniki analogowe, ponieważ nie są podatne na wpływ szumów i zakłóceń analogowych.
-    
-%     \item Złożoność realizacji: Filtry cyfrowe mogą być trudniejsze do zrealizowania w praktyce, ponieważ wymagają skomplikowanych układów cyfrowych i procesorów sygnałowych.
-    
-%     \item Zakres częstotliwości: Filtry analogowe mogą pracować z sygnałami o wyższych częstotliwościach niż filtry cyfrowe, które są ograniczone przez częstotliwość próbkowania.
-    
-%     \item Zastosowania: Filtry analogowe są często stosowane w radiotechnice i innych aplikacjach, które wymagają przetwarzania sygnałów w czasie rzeczywistym. Filtry cyfrowe są często stosowane w aplikacjach, które wymagają wysokiej dokładności i elastyczności, takich jak przetwarzanie obrazów i dźwięku.
-% \end{itemize}
-Zalety transformacji biliniowej (z analogowego na cyfrowy):
-\begin{itemize}
-    \item zachowana stabilność,
-    \item brak efektu nakładania się widm.
-\end{itemize}
-
-Wady transformacji biliniowej:
-\begin{itemize}
-    \item zniekształcenie osi częstotliwości.
-\end{itemize}
-    
-\textbf{Chat GPT:}\\
-Filtry Czebyszewa są rodzajem filtrów, które zapewniają optymalizację między
-szerokością pasma przenoszenia a tłumieniem w paśmie zaporowym. Są one nazwane
-na cześć rosyjskiego matematyka Pafnutiego Czebyszewa. Podstawowe cechy filtrów
-Czebyszewa to:
-
-Ryple (fale) w paśmie przenoszenia: Filtry Czebyszewa typu 1 mają
-charakterystyczną cechę, która polega na tym, że mają ryple (fluktuacje) w
-paśmie przenoszenia. Wielkość tych rypli jest jednym z parametrów projektowania
-filtru. Większe ryple prowadzą do szybszego tłumienia poza paśmie przenoszenia,
-ale kosztem większych zniekształceń w paśmie przenoszenia.
-
-Szybkość tłumienia: Filtry Czebyszewa są znane z tego, że zapewniają szybkie
-tłumienie poza paśmie przenoszenia. W porównaniu do innych typów filtrów, takich
-jak filtry Butterwortha, filtry Czebyszewa mogą osiągnąć tłumienie o określonej
-wielkości przy mniejszej liczbie stopni (rzędu filtru).
-
-Optymalizacja Czebyszewa: Filtry Czebyszewa są zaprojektowane tak, aby
-minimalizować maksymalne odchylenie od idealnej charakterystyki w określonym
-zakresie częstotliwości. Oznacza to, że filtr Czebyszewa zapewnia optymalne
-rozwiązanie problemu Czebyszewa.
-
-Charakterystyki częstotliwościowe filtrów analogowych i cyfrowych różnią się
-pod wieloma względami:
-
-Zakres częstotliwości: Filtry analogowe działają na sygnałach ciągłych i mogą
-przetwarzać sygnały o dowolnej częstotliwości, ograniczonej tylko przez
-charakterystyki sprzętowe. Z drugiej strony, filtry cyfrowe działają na
-sygnałach dyskretnych i są ograniczone przez częstotliwość Nyquista, która jest
-połową częstotliwości próbkowania.
-
-Stabilność: Filtry analogowe mogą mieć problemy ze stabilnością, zwłaszcza dla
-filtrów o wysokim rzędzie. Filtry cyfrowe są zazwyczaj bardziej stabilne,
-chociaż mogą wystąpić problemy ze stabilnością w przypadku filtrów IIR.
-\end{mdframed}
-
-\begin{zadanie}
-    Podać warunek liniowej fazy filtrów SOI dla N parzystego i nieparzystego i omówić jaki wpływ ma liniowa faza na filtrowany sygnał? \textbf{3p}
-\end{zadanie}
-\begin{mdframed}
-    % Filtrowanie liniowofazowe jest możliwe, gdy odpowiedź impulsowa systemu jest symetryczna lub antysymetryczna.
-    % Warunek liniowości fazy:
-    % %Symetryczny (typ I i II): 
-    % $h[k] = h[N - k]$ dla wszystkich $k$, gdzie $N$ to
-    % rzęd filtru.
-
-Filtr FIR (SOI) ma liniową charakterystykę fazy, gdy jest symetryczny lub
-antysymetryczny, co znaczy, że jego odpowiedź impulsowa spełnia jeden z
-poniższych warunków:\\
- Symetryczny (typ I i II): $h[n] = h[N - n]$ dla wszystkich $n$,
-gdzie $N$ to rzęd filtru.\\
- Antysymetryczny (typ III i IV): $h[n] = -h[N - n]$ dla
-wszystkich $n$. \\
-Filtry FIR, które spełniają te warunki, nazywane są filtrami o
-liniowej fazie.\\
- Liniowa faza jest pożądana, ponieważ utrzymuje relacje fazowe
-pomiędzy różnymi składowymi częstotliwościowymi sygnału. Innymi słowy, wszystkie
-składowe częstotliwościowe sygnału są przesunięte w czasie o tę samą ilość, co
-oznacza, że kształt sygnału jest zachowany po filtracji. To jest szczególnie
-istotne w wielu zastosowaniach, takich jak przetwarzanie dźwięku i obrazu, gdzie
-zachowanie kształtu sygnału jest kluczowe. W przeciwnym razie, jeśli faza nie
-jest liniowa, różne składowe częstotliwościowe mogą być przesunięte o różne
-ilości, co prowadzi do zniekształceń, takich jak ``rozmycie'' sygnału.\\
-$$n=k$$
-    
-\end{mdframed}
-\begin{zadanie}{}
-    Podać definicje funkcji autokorelacji R, funkcji autokowariancji C ergodycznego \textbf{1p}, stacjonarnego szeregu losowego X. Wyznaczyć wartość średnią tego procesu oraz funkcję autokorelacji z dostępnej realizacji czasowej $x = [3,5,2,4,2]$ tego procesu losowego. Narysować tę funkcję autokorelacji. \textbf{3p}
-    Wyznaczyć macierz autokorelacji R. \textbf{2p}
-\end{zadanie}
-
-\begin{mdframed}
-    Funkcja autokorelacji jest miarą podobieństwa między wartością sygnału w danym
-    czasie a wartościami sygnału w innych czasach. Definiuje ona zależność między
-    dwiema kolejnymi wartościami sygnału i mierzy, jak bardzo te wartości są
-    skorelowane. Funkcja autokowariancji mierzy kowariancję między dwiema
-    wartościami sygnału w różnych momentach czasowych. Jest to szczególny przypadek
-    funkcji autokorelacji, w którym oczekiwana wartość sygnału jest równa zero.
-    Szereg losowy X jest nazywany stacjonarnym jeśli jego średnia nie zależy od
-    czasu oraz funkcja autokorelacji zależy tylko od różnicy między czasami, a nie
-    od samych czasów. Stacjonarny szereg losowy ergodyczny spełnia dodatkowo warunek,
-    że wartości średnie uzyskane na podstawie jednych realizacji są reprezentatywne
-    dla wartości średnich uzyskanych na podstawie innych realizacji.
-    
-    $$(3+5+2+4+2)/5 = 3.2$$
-    
-    $$R(0) = (1/5) * [(3-3.2)^2 + (5-3.2)^2 + (2-3.2)^2$$$$ + (4-3.2)^2 + (2-3.2)^2] = 1.76$$
-    
-    $$R(1) = (1/4) * [(3-3.2)(5-3.2) + (5-3.2)(2-3.2)$$$$ + (2-3.2)(4-3.2) + (4-3.2)(2-3.2)] = -0.8$$
-    
-    $$R(2) = (1/3) * [(3-3.2)(2-3.2) + (5-3.2)(4-3.2)$$$$ + (2-3.2)(2-3.2)] = 0$$
-    
-    $$R(3) = (1/2) [(3-3.2)(4-3.2)$$$$ + (5-3.2)(2-3.2)] = -0.8$$
-    
-    $$R(4) = (1/1) * [(3-3.2)*(2-3.2)] = 0$$
-
-    $$R = \begin{bmatrix}
-        1.76 & -0.8 & 0 & -0.8 & 0 \\
-        -0.8 & 1.76 & -0.8 & 0 & -0.8 \\
-        0 & -0.8 & 1.76 & -0.8 & 0 \\
-        -0.8 & 0 & -0.8 & 1.76 & -0.8 \\
-        0 & -0.8 & 0 & -0.8 & 1.76
-        \end{bmatrix}$$
-        
-
-\end{mdframed}
-
-\begin{zadanie}{}
-Filtr Wienera zazwyczaj jest filtrem SOI i pracuje w strukturze
+Podsumowując, ten skrypt jest węzłem ROS, który publikuje wartości funkcji sinusoidalnej na temat 'y' z parametrami amplitudy i częstotliwości, które mogą być dynamicznie aktualizowane w trakcie działania węzła.
 
 
-    $$y(n)=\sum_{k=0}^{M}h(k)x(n-k)=h^{T}x(n)$$
-    $$h=[h_0,h_1,...,h_M]^{T}$$
-    $$x(n)=[x(n),x(n-1),x(n-2)\dots,x(n-M)]^T$$
+\begin{rozwiazanie}[: Regulator PID]
+\end{rozwiazanie}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=1\linewidth]{2.drawio.pdf}
-    \end{figure}
-Podać wskaźnik jakości optymalizacji, który prowadzi do uzyskania optymalnego zbioru współczynników filtru \textbf{h}. Podać rozwiązanie problemu optymalizacji w postaci macierzowo-wektorowego równania Wienera-Hopfa. \textbf{4p}
-\end{zadanie}
+\begin{longlisting}
+    \begin{minted}{python}
+#!/usr/bin/python3
+
+import rospy
+from std_msgs.msg import Float32
+import math
+
+rospy.init_node('falka')
+e = 0.0
+y_mierz = 0.0
+e_i = 0.0
+e_d = 0.0
+e_pop = 0.0
+u = 0.0
+pub = rospy.Publisher('y', Float32, queue_size=10)
+rate = rospy.Rate(10.0)
+t = 0
+
+while not rospy.is_shutdown():
+        dt = ros.get_param('dt')
+        y_zad = rospy.get_param('y_zad')
+        k_p = rospy.get_param('k_p')
+        k_i = rospy.get_param('k_i')
+        k_d = rospy.get_param('k_d')
+        y_mierz = u
+        e = y_zad - y_mierz
+        e_i = e_i + (e * dt)
+        e_d = (e - e_pop) / dt
+        e_pop = e
+        u = (k_p * e) + (k_i * e_i) + (k_d * e_d)
+        msg = Float32()
+        msg.data = u
+        pub.publish(msg)
+        rate.sleep()
+        t += 1
+    \end{minted}
+\end{longlisting}
+
+Oto kroki wykonywane przez ten skrypt:
+
+\begin{enumerate}
+    \item Importowanie niezbędnych bibliotek ROS oraz \verb|Float32| z \verb|std_msgs.msg| i \verb|math|.
+    \item Inicjalizacja węzła ROS o nazwie ''falka'' za pomocą \verb|rospy.init_node('falka')|. Węzeł jest podstawową jednostką obliczeniową w ROS.
+    \item Inicjalizacja zmiennych i publikatora (\verb|Publisher|) dla tematu ''y'' z typem \verb|Float32|.
+    \item Ustawienie częstotliwości odświeżania na 10Hz za pomocą \verb|rate = rospy.Rate(10.0)|.
+    \item Inicjalizacja zmiennej \verb|t| na 0, która służy do śledzenia czasu.
+    \item Rozpoczęcie głównej pętli programu (\verb|while not rospy.is_shutdown()|).
+    \item Pobranie parametrów \verb|dt|, \verb|y_zad|, \verb|k_p|, \verb|k_i|, \verb|k_d| za pomocą \verb|rospy.get_param()|. Parametry te są dostarczane przez zewnętrzne źródło, takie jak plik konfiguracyjny ROS.
+    \item Uaktualnienie wartości zmiennej \verb|y_mierz| na podstawie wartości \verb|u|.
+    \item Obliczenie błędu \verb|e| jako różnicy między wartością zadaną \verb|y_zad| a zmierzoną wartością \verb|y_mierz|.
+    \item Obliczenie składnika całkującego błędu \verb|e_i| przez dodanie iloczynu błędu \verb|e| i czasu próbkowania \verb|dt| do wartości poprzedniej.
+    \item Obliczenie składnika różniczkującego błędu \verb|e_d| jako iloraz różnicy błędu \verb|e| i poprzedniego błędu \verb|e_pop| przez czas próbkowania \verb|dt|.
+    \item Zaktualizowanie wartości poprzedniego błędu \verb|e_pop| na bieżący błąd \verb|e|.
+    \item Obliczenie wartości sterującej \verb|u| jako sumy iloczynów współczynników \verb|k_p|, \verb|k_i|, \verb|k_d| przez odpowiednie składniki błędów \verb|e|, \verb|e_i| i \verb|e_d|.
+    \item Tworzenie obiektu wiadomości \verb|msg| typu \verb|Float32| i przypisanie mu wartości \verb|u|.
+    \item Opublikowanie wiadomości na temat ''y'' za pomocą \verb|pub.publish(msg)|.
+    \item Poczekanie na czas równy czasowi próbkowania \verb|dt| przy użyciu \verb|rate.sleep()|.
+    \item Inkrementacja zmiennej \verb|t| o 1, aby śledzić upływ czasu.
+\end{enumerate}
 
 
-\begin{mdframed}
-    Filtr Wienera jest zaprojektowany do minimalizacji średniej kwadratowej
-    błędu (MSE - mean square error) między sygnałem oczekiwanym a rzeczywistym
-    sygnałem wyjściowym. MSE jest wskaźnikiem jakości optymalizacji, który jest
-    zdefiniowany jako: $E{(d(n) - y(n))^2}$ \\
-    gdzie:\\
-    $E\{\dots\}$ oznacza wartość oczekiwaną (średnią),\\ 
-    $d(n)$ to oczekiwany (docelowy) sygnał,\\
-    $y(n)$ to rzeczywisty sygnał wyjściowy.\\
+Ten skrypt jest ciągłą pętlą, która pobiera parametry zewnętrzne, oblicza sterowanie na podstawie regulatora PID i publikuje wartość sterowania na temat ''y'' w ROS.
 
-    Równanie Wienera-Hopfa Równanie Wienera-Hopfa to kluczowe równanie w teorii filtrów Wienera, które pozwala
-    na wyznaczenie optymalnych współczynników filtru. W przypadku liniowego,
-    czasowo niezmiennego filtru Wienera, równanie Wienera-Hopfa ma postać: $R_{xx}
-    * h = r_{dx}$ gdzie:\\
-     $R_{xx}$ to autokorelacyjna macierz sygnału wejściowego $x$,\\
-     $h$ to wektor współczynników filtru, który chcemy optymalizować,\\
-      $r_{dx}$ to wektor
-    krzyżowej funkcji korelacji między sygnałem wejściowym x a sygnałem
-    docelowym d.\\
 
-     Rozwiązaniem tego równania jest wektor optymalnych
-    współczynników filtru h. Możemy to zrobić, na przykład, za pomocą metody
-    odwracania macierzy lub innych technik rozwiązywania równań liniowych. \\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{focie/343277825_199878826279962_1738603146835426626_n.png}
+    \includegraphics[width=1\linewidth]{focie/343327911_9343023112437947_4817743500631599258_n.png}
+    \caption{Wynik działania skryptu}
+    \label{fig:2}
+\end{figure}
 
-\end{mdframed}
+\subsection{Wnioski}
+Zadanie zostało pomyślnie zakończone. Wykorzystanie parametrów w systemie ROS nie powoduje trudności podczas implementacji, ale wymaga biegłego modyfikowania kodu źródłowego. Zręczne edytowanie kodu programu umożliwia modyfikację parametrów w czasie rzeczywistym, jednak nie dotyczy to wszystkich. Stałe zadeklarowane jako kp, ki, kd można zmienić jedynie przez zatrzymanie głównego programu.
 
 \end{document}
