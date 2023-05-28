@@ -9,8 +9,8 @@
 \usepackage{graphicx} % wstawianie zdjęć
 % \usepackage[utf8]{inputenc} % niepotrzebne bo lualatex
 \usepackage[T1]{fontenc} % niepotrzebne bo lualatex
-\usepackage[left=1cm,right=1cm,top=1cm,bottom=2cm,
-columnsep=1cm % odstęp między kolumnami
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,
+columnsep=1.5cm % odstęp między kolumnami
 ]{geometry}%marginesy
 
 \usepackage{listings} % punktowanie
@@ -99,209 +99,77 @@ middlelinewidth=1pt,
 \tableofcontents%spis treści
 % \clearpage
 
-\section{Cel ćwiczenia}
-Celem ćwiczenia jest zapoznanie studentów z serwerem parametrów w systemie ROS.
+\section{Cel ćwiczenia}%sekcja
+Celem ćwiczenia jest przybliżenie możliwości wykorzystywania biblioteki Image Processing Toolbox (IPT) do przetwarzania i analizy informacji o barwie zawartej w obrazie cyfrowym. Zakres laboratorium obejmuje: konwertowanie obrazów cyfrowych do innej przestrzeni barw (opisu w rożnych modelach barwnych), pseudokolorowanie, praktyczne wykorzystanie wybranych metod i technik analizy barwnej obrazów cyfrowych.
 
-\section{Przebieg ćwiczenia}
-W ramach ćwiczenia zapoznamy się z:
-\begin{itemize}
-    \item definiowaniem parametrów,
-    \item obsługą parametrów w językach Python i C++.
-\end{itemize}
 
-\section{Zadania do realizacji}
-%numeracja z liczbami
-
-\begin{zadanie}[: Modyfikacja przykładowego programu]
-    Sprawdź, jak działają umieszczone powyżej programy. Zmodyfikuj program tak, aby reagował na zmianę wartości parametrów w trakcie działania programu.
-\end{zadanie}
-
-\begin{zadanie}[: Regulator PID]
-
-    Napisz program implementujący regulator PID\@. Użyj parametrów systemu
-    ROS do modyfikacji wartości współczynników kp, ki i kd, a także progów
-    saturacji regulatora. Regulator PID (Proportional - Integral -
-    Derivative) jest klasycznym regulatorem stosowanym w wielu zastosowaniach
-    przemysłowych. Odpowiedź tego regulatora wyznaczana jest na podstawie
-    sygnału błędu, całki tego sygnału, oraz jego pochodnej (najczęściej
-    wyznaczanej metodami numerycznymi). Jedną z prostych możliwych realizacji
-    algorytmu regulatora PID można przedstawić przy pomocy poniższego pseudokodu:
-    \begin{verbatim}
-e := y_zadane - y_mierzone
-e_i := e_i + e * dt
-e_d := (e - e_poprzednie) / dt
-e_poprzednie := e
-u := kp * e + ki * e_i + kd * e_d
-    \end{verbatim}
-    W powyższym pseudokodzie, y\_zadane oznacza wartość zadaną sygnału
-    regulowanego, a y mierzone jego aktualną wartość mierzoną. Sygnał e oznacza
-    aktualną wartość błędu, ei - całkę błędu, a ed - jego pochodną obliczoną
-    metodą różnic skończonych. epoprzednie służy do przechowania wartości
-    sygnału błędu w poprzednim kroku czasowym. Długość tego kroku czasowego
-    oznaczono jako dt. Sygnał wyjściowy regulatora u jest wypracowywany jako
-    ważona współczynnikami kp, ki, kd suma sygnału błędu, całki oraz różniczki
-    tego sygnału. Powyższy algorytm powinien być wykonywany w pętli o
-    odpowiednio dobranym kroku czasowym dt. W nieco bardziej zaawansowanych
-    realizacjach regulatora PID istnieje możliwość ograniczenia wartości sygnału
-    sterującego regulatora, na przykład przez zdefiniowanie jego górnej i dolnej
-    granicy (zob. saturacja). Dodatkowo, w celu zapobieżenia problemowi
-    nawijania się regulatora (wind-up), umożliwia się zerowanie wartości całki
-    sygnału błędu. (*) Dodaj serwis umożliwiający reset wartości członu
-    całkującego.
-\end{zadanie}
-
-\section{Realizacja zadań}
-
-\begin{rozwiazanie}[: Modyfikacja przykładowego programu]
-\end{rozwiazanie}
-
-Działanie skryptu jest następujące:
-
-\begin{enumerate}
-    \item Importuje odpowiednie moduły Pythona: \texttt{rospy}, \texttt{std\_msgs.msg} i \texttt{math}. \texttt{rospy} to biblioteka do interakcji z ROS używając Pythona, \texttt{std\_msgs.msg} to standardowe wiadomości ROS, które mogą być używane do komunikacji między węzłami, a \texttt{math} to standardowa biblioteka Pythona dla matematycznych operacji.
-    
-    \item Inicjalizuje węzeł ROS o nazwie 'falka'. Węzeł to jednostka wykonawcza w systemie ROS.
-
-    \item Pobiera parametry 'A' i 'w' z serwera parametrów ROS. Parametry te są używane do określenia amplitudy i częstotliwości dla funkcji sinus, która jest używana później w skrypcie.
-
-    \item Tworzy obiekt wydawcy o nazwie 'y', który publikuje wiadomości typu \texttt{Float32} z kolejką o rozmiarze 10. Wydawca to obiekt, który publikuje wiadomości na określony temat w systemie ROS.
-
-    \item Ustala częstotliwość wysyłania wiadomości na 10Hz.
-
-    \item Inicjalizuje zmienną $t$ na 0.
-
-    \item Wchodzi w pętlę, która jest wykonywana, dopóki węzeł ROS nie jest zamykany. W trakcie każdego cyklu pętli:
-    \begin{enumerate}
-        \item Pobiera ponownie parametry 'A' i 'w' z serwera parametrów, co pozwala na ich dynamiczną aktualizację w trakcie działania węzła.
-        
-        \item Oblicza wartość $y$ jako $A \cdot \sin(w \cdot t)$. Jest to wartość funkcji sinus zależnej od czasu, gdzie $A$ jest amplitudą, $w$ jest częstotliwością, a $t$ jest aktualnym czasem.
-        
-        \item Tworzy nową wiadomość typu \texttt{Float32} i ustawia jej dane na obliczoną wartość $y$.
-        
-        \item Publikuje tę wiadomość.
-        
-        \item Zasypia na określony czas, aby utrzymać żądaną częstotliwość publikacji wiadomości.
-        
-        \item Inkrementuje $t$ o 1.
-    \end{enumerate}
-\end{enumerate}
-
+\section{Kod}
 \begin{longlisting}
-    \begin{minted}{python}
-#!/usr/bin/python3
-
-import rospy
-from std_msgs.msg import Float32
-import math
-
-rospy.init_node('falka')
-A = rospy.get_param('A')
-w = rospy.get_param('w')
-pub = rospy.Publisher('y', Float32, queue_size=10)
-rate = rospy.Rate(10.0)
-t = 0
-
-while not rospy.is_shutdown():
-        A = rospy.get_param('A')
-        w = rospy.get_param('w')
-        y = A * math.sin(w * t)
-        msg = Float32()
-        msg.data = y
-        pub.publish(msg)
-        rate.sleep()
-        t += 1
-    \end{minted}
+    \inputminted{matlab}{kod/PSIO3x.m}
 \end{longlisting}
 
+
+Pierwsza część kodu dotyczy wyświetlania rozkładu składowych barw RGB we współrzędnych 3D dla obrazu dog.jpg. Początkowo, kod wczytuje obraz i wyodrębnia składowe czerwony (R), zielony (G) i niebieski (B) do osobnych zmiennych. Następnie, tworzy mapy kolorów dla każdej składowej barwy. Wartość nasycenia Z jest następnie używana do redukcji nasycenia dla każdej składowej barwy, co skutkuje obrazami z zredukowanym nasyceniem dla składowych R, G, i B\@. Te obrazy są następnie wyświetlane jako wykresy przestrzenne. 
+
+W drugiej części kodu, obraz RGB jest konwertowany do trzech różnych reprezentacji barwnych: HSV, Lab, i YCbCr. Te konwersje są użyteczne, ponieważ różne modele barwne mogą lepiej reprezentować pewne aspekty obrazu, takie jak percepcyjna jasność, nasycenie lub odcień. Wynikowe obrazy są następnie wyświetlane. 
+
+Trzecia część kodu obejmuje kilka operacji na obrazie barwnym. Obraz jest najpierw konwertowany do obrazu w odcieniach szarości. Następnie, jest tworzony profil barwny RGB dla wybranego fragmentu obrazu. Wybrany kanał barwny jest modyfikowany (w tym przypadku, poprzez dodanie wartości do kanału czerwonego), a następnie obrazy są skalowane z powrotem do obrazu RGB i wyświetlane. Kolejnym krokiem jest pseudokolorowanie obrazu dla dwóch różnych liczby kolorów (64 i 255), przy użyciu dwóch różnych map kolorów (parula i jet). Na końcu, z obrazu wyodrębniany jest wybrany kolor (w tym przypadku czerwony). 
+
+Czwarta część kodu skupia się na modyfikacji kontrastu obrazu. Zaczyna się od konwersji obrazu do obrazu w odcieniach szarości. Następnie, obraz jest wyświetlany przed regulacją kontrastu. Kontrast jest regulowany dla różnych wartości parametrów za pomocą funkcji imadjust. Na końcu, obrazy po regulacji kontrastu są wyświetlane.
+
+\section{Wyniki}
+
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{focie/1.png}
-    \includegraphics[width=1\linewidth]{focie/2.png}
-    \caption{Wynik działania skryptu}
-    \label{fig:1}
+    \centering\includegraphics[width=1\linewidth]{kod/my_figure1.pdf}
+    \label{fig:my_figure1.pdf}
 \end{figure}
 
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure2.pdf}\label{fig:my_figure2.pdf}\end{figure}
 
-Podsumowując, ten skrypt jest węzłem ROS, który publikuje wartości funkcji sinusoidalnej na temat 'y' z parametrami amplitudy i częstotliwości, które mogą być dynamicznie aktualizowane w trakcie działania węzła.
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure3.pdf}\label{fig:my_figure3.pdf}\end{figure}
 
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure4.pdf}\label{fig:my_figure4.pdf}\end{figure}
 
-\begin{rozwiazanie}[: Regulator PID]
-\end{rozwiazanie}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure5.pdf}\label{fig:my_figure5.pdf}\end{figure}
 
-\begin{longlisting}
-    \begin{minted}{python}
-#!/usr/bin/python3
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure6.pdf}\label{fig:my_figure6.pdf}\end{figure}
 
-import rospy
-from std_msgs.msg import Float32
-import math
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure7.pdf}\label{fig:my_figure7.pdf}\end{figure}
 
-rospy.init_node('falka')
-e = 0.0
-y_mierz = 0.0
-e_i = 0.0
-e_d = 0.0
-e_pop = 0.0
-u = 0.0
-pub = rospy.Publisher('y', Float32, queue_size=10)
-rate = rospy.Rate(10.0)
-t = 0
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure8.pdf}\label{fig:my_figure8.pdf}\end{figure}
 
-while not rospy.is_shutdown():
-        dt = ros.get_param('dt')
-        y_zad = rospy.get_param('y_zad')
-        k_p = rospy.get_param('k_p')
-        k_i = rospy.get_param('k_i')
-        k_d = rospy.get_param('k_d')
-        y_mierz = u
-        e = y_zad - y_mierz
-        e_i = e_i + (e * dt)
-        e_d = (e - e_pop) / dt
-        e_pop = e
-        u = (k_p * e) + (k_i * e_i) + (k_d * e_d)
-        msg = Float32()
-        msg.data = u
-        pub.publish(msg)
-        rate.sleep()
-        t += 1
-    \end{minted}
-\end{longlisting}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure9.pdf}\label{fig:my_figure9.pdf}\end{figure}
 
-Oto kroki wykonywane przez ten skrypt:
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure10.pdf}\label{fig:my_figure10.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure11.pdf}\label{fig:my_figure11.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure12.pdf}\label{fig:my_figure12.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure13.pdf}\label{fig:my_figure13.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure14.pdf}\label{fig:my_figure14.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure15.pdf}\label{fig:my_figure15.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure16.pdf}\label{fig:my_figure16.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure17.pdf}\label{fig:my_figure17.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure18.pdf}\label{fig:my_figure18.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure19.pdf}\label{fig:my_figure19.pdf}\end{figure}
+
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure20.pdf}\label{fig:my_figure20.pdf}\end{figure}
+
+\section{Wnioski}
 
 \begin{enumerate}
-    \item Importowanie niezbędnych bibliotek ROS oraz \verb|Float32| z \verb|std_msgs.msg| i \verb|math|.
-    \item Inicjalizacja węzła ROS o nazwie ''falka'' za pomocą \verb|rospy.init_node('falka')|. Węzeł jest podstawową jednostką obliczeniową w ROS.
-    \item Inicjalizacja zmiennych i publikatora (\verb|Publisher|) dla tematu ''y'' z typem \verb|Float32|.
-    \item Ustawienie częstotliwości odświeżania na 10Hz za pomocą \verb|rate = rospy.Rate(10.0)|.
-    \item Inicjalizacja zmiennej \verb|t| na 0, która służy do śledzenia czasu.
-    \item Rozpoczęcie głównej pętli programu (\verb|while not rospy.is_shutdown()|).
-    \item Pobranie parametrów \verb|dt|, \verb|y_zad|, \verb|k_p|, \verb|k_i|, \verb|k_d| za pomocą \verb|rospy.get_param()|. Parametry te są dostarczane przez zewnętrzne źródło, takie jak plik konfiguracyjny ROS.
-    \item Uaktualnienie wartości zmiennej \verb|y_mierz| na podstawie wartości \verb|u|.
-    \item Obliczenie błędu \verb|e| jako różnicy między wartością zadaną \verb|y_zad| a zmierzoną wartością \verb|y_mierz|.
-    \item Obliczenie składnika całkującego błędu \verb|e_i| przez dodanie iloczynu błędu \verb|e| i czasu próbkowania \verb|dt| do wartości poprzedniej.
-    \item Obliczenie składnika różniczkującego błędu \verb|e_d| jako iloraz różnicy błędu \verb|e| i poprzedniego błędu \verb|e_pop| przez czas próbkowania \verb|dt|.
-    \item Zaktualizowanie wartości poprzedniego błędu \verb|e_pop| na bieżący błąd \verb|e|.
-    \item Obliczenie wartości sterującej \verb|u| jako sumy iloczynów współczynników \verb|k_p|, \verb|k_i|, \verb|k_d| przez odpowiednie składniki błędów \verb|e|, \verb|e_i| i \verb|e_d|.
-    \item Tworzenie obiektu wiadomości \verb|msg| typu \verb|Float32| i przypisanie mu wartości \verb|u|.
-    \item Opublikowanie wiadomości na temat ''y'' za pomocą \verb|pub.publish(msg)|.
-    \item Poczekanie na czas równy czasowi próbkowania \verb|dt| przy użyciu \verb|rate.sleep()|.
-    \item Inkrementacja zmiennej \verb|t| o 1, aby śledzić upływ czasu.
+    \item \textbf{Obróbka obrazów RGB w MATLABie:} Przedstawiony kod demonstruje różne techniki obróbki obrazów RGB, takie jak zmiana nasycenia, konwersja do innych przestrzeni barwnych, konwersja do odcieni szarości, modyfikacja kanałów barwnych, pseudokolorowanie oraz wyodrębnianie wybranych kolorów.
+    \item \textbf{Przestrzenie barwne:} Kod pokazuje, jak można skonwertować obrazy RGB do innych przestrzeni barwnych, takich jak HSV, Lab i YCbCr. Każda przestrzeń barwna dostarcza różne informacje na temat barwy, nasycenia i jasności.
+    \item \textbf{Analiza obrazów:} Przedstawiony kod pokazuje, jak przeprowadzić analizę obrazów, taką jak wyświetlanie profilu barwnego RGB dla wybranego fragmentu obrazu oraz pomiar różnicy kolorów między obrazami.
+    \item \textbf{Korekcja kontrastu:} Kod przedstawia różne metody regulacji kontrastu obrazu, takie jak regulacja za pomocą funkcji imadjust oraz korekcja gamma. Porównanie histogramów przed i po korekcji kontrastu może pomóc w ocenie skuteczności tych technik.
+    \item \textbf{Użycie funkcji MATLABa:} Przedstawiony kod wykorzystuje różne funkcje dostępne w MATLABie do przetwarzania i analizy obrazów, takie jak imread, rgb2gray, ind2rgb, imadjust, imabsdiff itp. Zrozumienie i umiejętność korzystania z tych funkcji może być przydatne przy pracy z obrazami w MATLABie.
 \end{enumerate}
-
-
-Ten skrypt jest ciągłą pętlą, która pobiera parametry zewnętrzne, oblicza sterowanie na podstawie regulatora PID i publikuje wartość sterowania na temat ''y'' w ROS.
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{focie/343277825_199878826279962_1738603146835426626_n.png}
-    \includegraphics[width=1\linewidth]{focie/343327911_9343023112437947_4817743500631599258_n.png}
-    \caption{Wynik działania skryptu}
-    \label{fig:2}
-\end{figure}
-
-\subsection{Wnioski}
-Zadanie zostało pomyślnie zakończone. Wykorzystanie parametrów w systemie ROS nie powoduje trudności podczas implementacji, ale wymaga biegłego modyfikowania kodu źródłowego. Zręczne edytowanie kodu programu umożliwia modyfikację parametrów w czasie rzeczywistym, jednak nie dotyczy to wszystkich. Stałe zadeklarowane jako kp, ki, kd można zmienić jedynie przez zatrzymanie głównego programu.
 
 \end{document}
