@@ -16,7 +16,7 @@
 \PYG{p}{[}\PYG{n}{w}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{\PYGZti{}}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{size}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wyświetlenie oryginalnego obrazu}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz RGB\PYGZsq{}}\PYG{p}{)}
 
@@ -48,7 +48,7 @@
 \PYG{n}{obrazB\PYGZus{}redukowany}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{obrazB}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Z}\PYG{o}{/}\PYG{l+m+mi}{255}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wygenerowanie wykresów 3D dla składowych kolorów}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}
 \PYG{n+nb}{mesh}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{w}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{obrazR\PYGZus{}redukowany}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}FaceColor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}texturemap\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}EdgeColor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}CdataMapping\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}direct\PYGZsq{}}\PYG{p}{);}
 \PYG{n+nb}{colormap}\PYG{p}{(}\PYG{n}{red}\PYG{p}{)}
 \PYG{n+nb}{view}\PYG{p}{([}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{+w}{ }\PYG{l+m+mi}{70}\PYG{p}{]);}
@@ -56,7 +56,7 @@
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Wykres przestrzenny \PYGZhy{} kanał czerwony (zredukowany)\PYGZsq{}}\PYG{p}{);}
 \PYG{n+nb}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Kolumna\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Wiersz\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{zlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Natężenie\PYGZsq{}}\PYG{p}{);}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}
 \PYG{n+nb}{surf}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{w}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{obrazG\PYGZus{}redukowany}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}FaceColor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}texturemap\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}EdgeColor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}CdataMapping\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}direct\PYGZsq{}}\PYG{p}{);}
 \PYG{n+nb}{colormap}\PYG{p}{(}\PYG{n}{green}\PYG{p}{)}
 \PYG{n+nb}{view}\PYG{p}{([}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{+w}{ }\PYG{l+m+mi}{70}\PYG{p}{]);}
@@ -64,7 +64,7 @@
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Wykres przestrzenny \PYGZhy{} kanał zielony (zredukowany)\PYGZsq{}}\PYG{p}{);}
 \PYG{n+nb}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Kolumna\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Wiersz\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{zlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Natężenie\PYGZsq{}}\PYG{p}{);}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
 \PYG{n+nb}{mesh}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{k}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{w}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{obrazB\PYGZus{}redukowany}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}FaceColor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}texturemap\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}EdgeColor\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}none\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}CdataMapping\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}direct\PYGZsq{}}\PYG{p}{);}
 \PYG{n+nb}{colormap}\PYG{p}{(}\PYG{n}{blue}\PYG{p}{)}
 \PYG{n+nb}{view}\PYG{p}{([}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{15}\PYG{+w}{ }\PYG{l+m+mi}{70}\PYG{p}{]);}
@@ -86,21 +86,21 @@
 \PYG{n}{obrazYCbCr}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{rgb2ycbcr}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wyświetlanie obrazów w trzech różnych reprezentacjach barwnych}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz RGB\PYGZsq{}}\PYG{p}{)}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazHSV}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz w przestrzeni barwnej HSV\PYGZsq{}}\PYG{p}{)}
 \PYG{n+nb}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Odcień\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Nasycenie\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{zlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Wartość\PYGZsq{}}\PYG{p}{)}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazLab}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz w przestrzeni barwnej Lab\PYGZsq{}}\PYG{p}{)}
 \PYG{n+nb}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Jasność\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{zlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}b\PYGZsq{}}\PYG{p}{)}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazYCbCr}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz w przestrzeni barwnej YCbCr\PYGZsq{}}\PYG{p}{)}
 \PYG{n+nb}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Luminancja\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{ylabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Chrominancja Cb\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{zlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Chrominancja Cr\PYGZsq{}}\PYG{p}{)}
@@ -112,18 +112,18 @@
 \PYG{n}{obrazGray}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{rgb2gray}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wyświetlanie obrazów}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{9}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz barwny\PYGZsq{}}\PYG{p}{)}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazGray}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz w odcieniach szarości\PYGZsq{}}\PYG{p}{)}
 
 \PYG{c}{\PYGZpc{}\PYGZpc{} b)	wyświetlić profil barwny RGB dla wybranego obiektu/fragmentu obrazu;    }
 
 \PYG{c}{\PYGZpc{} Wyświetlanie obrazu}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{11}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz barwny\PYGZsq{}}\PYG{p}{)}
 
@@ -144,7 +144,7 @@
 \PYG{n}{sredniaB}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{mean}\PYG{p}{(}\PYG{n+nb}{mean}\PYG{p}{(}\PYG{n}{obszarZainteresowania}\PYG{p}{(:,:,}\PYG{l+m+mi}{3}\PYG{p}{)));}
 
 \PYG{c}{\PYGZpc{} Wyświetlanie profilu barwnego RGB}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{p}{)}
 \PYG{n+nb}{plot}\PYG{p}{([}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{],}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{sredniaR}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sredniaG}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sredniaB}\PYG{p}{],}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}o\PYGZhy{}\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}LineWidth\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Profil barwny RGB dla wybranego obiektu\PYGZsq{}}\PYG{p}{)}
 \PYG{n+nb}{xlabel}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Kanał barwny\PYGZsq{}}\PYG{p}{)}
@@ -153,7 +153,7 @@
 \PYG{n+nb}{grid}\PYG{+w}{ }\PYG{n}{on}
 
 \PYG{c}{\PYGZpc{}\PYGZpc{} c)	zmodyfikować wybrany kanał barwny (np. poprzez odjęcie, dodanie, mnożenie itd. }
-\PYG{c}{\PYGZpc{} elementów w macierzy), a następnie za pomocą funkcji cat scalić macierze; wyświetlić obraz;  }
+\PYG{c}{\PYGZpc{} elementów w  macierzy),  a  następnie  za  pomocą  funkcji  cat  scalić  macierze; wyświetlić obraz;  }
 
 \PYG{c}{\PYGZpc{} Wybrany kanał barwny (np. czerwony \PYGZhy{} R)}
 \PYG{n}{kanal}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{obrazRGB}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{);}
@@ -165,11 +165,11 @@
 \PYG{n}{obrazModyfikowany}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{cat}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{modyfikacja}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{obrazRGB}\PYG{p}{(:,:,}\PYG{l+m+mi}{2}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{obrazRGB}\PYG{p}{(:,:,}\PYG{l+m+mi}{3}\PYG{p}{));}
 
 \PYG{c}{\PYGZpc{} Wyświetlanie obrazu}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{13}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz oryginalny\PYGZsq{}}\PYG{p}{)}
 
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{14}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazModyfikowany}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz po modyfikacji\PYGZsq{}}\PYG{p}{)}
 
@@ -187,7 +187,7 @@
 \PYG{n}{obrazPseudokolor255}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{ind2rgb}\PYG{p}{(}\PYG{n}{obrazSzary}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mapaKolorow255}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wyświetlanie obrazów}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{15}\PYG{p}{)}
 \PYG{n+nb}{subplot}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazSzary}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz w odcieniach szarości\PYGZsq{}}\PYG{p}{)}
@@ -230,7 +230,7 @@
 \PYG{n}{obrazWyodrebniony}\PYG{p}{(}\PYG{n+nb}{repmat}\PYG{p}{(}\PYG{o}{\PYGZti{}}\PYG{n}{maskaCzerwony}\PYG{p}{,[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]))}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
 
 \PYG{c}{\PYGZpc{} Wyświetlanie obrazów}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{16}\PYG{p}{)}
 \PYG{n+nb}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz oryginalny\PYGZsq{}}\PYG{p}{)}
@@ -247,7 +247,7 @@
 \PYG{n}{obrazSzary}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{rgb2gray}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wyświetlenie obrazu przed regulacją kontrastu}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{17}\PYG{p}{)}
 \PYG{n+nb}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazSzary}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz przed regulacją kontrastu\PYGZsq{}}\PYG{p}{)}
@@ -274,9 +274,8 @@
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazSkorygowany2}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obrazy po regulacji kontrastu2\PYGZsq{}}\PYG{p}{)}
 
-
 \PYG{c}{\PYGZpc{} Wyświetlenie histogramu przed korekcją}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{18}\PYG{p}{)}
 \PYG{n+nb}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n}{imhist}\PYG{p}{(}\PYG{n}{obrazSzary}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Histogram przed korekcją\PYGZsq{}}\PYG{p}{)}
@@ -291,7 +290,7 @@
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Histogram po korekcji gamma\PYGZsq{}}\PYG{p}{)}
 
 \PYG{c}{\PYGZpc{} Wyświetlenie obrazów}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{19}\PYG{p}{)}
 \PYG{n+nb}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{obrazSzary}\PYG{p}{)}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Obraz przed korekcją\PYGZsq{}}\PYG{p}{)}
@@ -309,7 +308,7 @@
 \PYG{n}{color\PYGZus{}diff2}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{deltaE}\PYG{p}{(}\PYG{n}{obrazRGB}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{obrazModyfikowany}\PYG{p}{);}
 
 \PYG{c}{\PYGZpc{} Wyświetlenie różnicy kolorów}
-\PYG{n+nb}{figure}\PYG{p}{()}
+\PYG{n+nb}{figure}\PYG{p}{(}\PYG{l+m+mi}{20}\PYG{p}{)}
 \PYG{n+nb}{subplot}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{color\PYGZus{}diff}\PYG{p}{);}
 \PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Różnica kolorów (imabsdiff)\PYGZsq{}}\PYG{p}{);}

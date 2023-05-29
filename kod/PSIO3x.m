@@ -15,7 +15,7 @@ obrazB = obrazRGB(:,:,3);
 [w, k, ~] = size(obrazRGB);
 
 % Wyświetlenie oryginalnego obrazu
-figure()
+figure(1)
 imshow(obrazRGB)
 title('Obraz RGB')
 
@@ -47,7 +47,7 @@ obrazG_redukowany = obrazG * (Z/255);
 obrazB_redukowany = obrazB * (Z/255);
 
 % Wygenerowanie wykresów 3D dla składowych kolorów
-figure()
+figure(2)
 mesh(1:k, w:-1:1, obrazR_redukowany, 'FaceColor', 'texturemap', 'EdgeColor', 'none', 'CdataMapping', 'direct');
 colormap(red)
 view([-15 70]);
@@ -55,7 +55,7 @@ colorbar('vert');
 title('Wykres przestrzenny - kanał czerwony (zredukowany)');
 xlabel('Kolumna'); ylabel('Wiersz'); zlabel('Natężenie');
 
-figure()
+figure(3)
 surf(1:k, w:-1:1, obrazG_redukowany, 'FaceColor', 'texturemap', 'EdgeColor', 'none', 'CdataMapping', 'direct');
 colormap(green)
 view([-15 70]);
@@ -63,7 +63,7 @@ colorbar('vert');
 title('Wykres przestrzenny - kanał zielony (zredukowany)');
 xlabel('Kolumna'); ylabel('Wiersz'); zlabel('Natężenie');
 
-figure()
+figure(4)
 mesh(1:k, w:-1:1, obrazB_redukowany, 'FaceColor', 'texturemap', 'EdgeColor', 'none', 'CdataMapping', 'direct');
 colormap(blue)
 view([-15 70]);
@@ -85,21 +85,21 @@ obrazLab = rgb2lab(obrazRGB);
 obrazYCbCr = rgb2ycbcr(obrazRGB);
 
 % Wyświetlanie obrazów w trzech różnych reprezentacjach barwnych
-figure()
+figure(5)
 imshow(obrazRGB)
 title('Obraz RGB')
 
-figure()
+figure(6)
 imshow(obrazHSV)
 title('Obraz w przestrzeni barwnej HSV')
 xlabel('Odcień'); ylabel('Nasycenie'); zlabel('Wartość')
 
-figure()
+figure(7)
 imshow(obrazLab)
 title('Obraz w przestrzeni barwnej Lab')
 xlabel('Jasność'); ylabel('a'); zlabel('b')
 
-figure()
+figure(8)
 imshow(obrazYCbCr)
 title('Obraz w przestrzeni barwnej YCbCr')
 xlabel('Luminancja'); ylabel('Chrominancja Cb'); zlabel('Chrominancja Cr')
@@ -111,18 +111,18 @@ xlabel('Luminancja'); ylabel('Chrominancja Cb'); zlabel('Chrominancja Cr')
 obrazGray = rgb2gray(obrazRGB);
 
 % Wyświetlanie obrazów
-figure()
+figure(9)
 imshow(obrazRGB)
 title('Obraz barwny')
 
-figure()
+figure(10)
 imshow(obrazGray)
 title('Obraz w odcieniach szarości')
 
 %% b)	wyświetlić profil barwny RGB dla wybranego obiektu/fragmentu obrazu;    
 
 % Wyświetlanie obrazu
-figure()
+figure(11)
 imshow(obrazRGB)
 title('Obraz barwny')
 
@@ -143,7 +143,7 @@ sredniaG = mean(mean(obszarZainteresowania(:,:,2)));
 sredniaB = mean(mean(obszarZainteresowania(:,:,3)));
 
 % Wyświetlanie profilu barwnego RGB
-figure()
+figure(12)
 plot([1, 2, 3], [sredniaR, sredniaG, sredniaB], 'o-', 'LineWidth', 2)
 title('Profil barwny RGB dla wybranego obiektu')
 xlabel('Kanał barwny')
@@ -152,7 +152,7 @@ set(gca, 'XTick', [1, 2, 3], 'XTickLabel', {'R', 'G', 'B'})
 grid on
 
 %% c)	zmodyfikować wybrany kanał barwny (np. poprzez odjęcie, dodanie, mnożenie itd. 
-% elementów w macierzy), a następnie za pomocą funkcji cat scalić macierze; wyświetlić obraz;  
+% elementów w  macierzy),  a  następnie  za  pomocą  funkcji  cat  scalić  macierze; wyświetlić obraz;  
 
 % Wybrany kanał barwny (np. czerwony - R)
 kanal = obrazRGB(:,:,1);
@@ -164,11 +164,11 @@ modyfikacja = kanal + 150;
 obrazModyfikowany = cat(3, modyfikacja, obrazRGB(:,:,2), obrazRGB(:,:,3));
 
 % Wyświetlanie obrazu
-figure()
+figure(13)
 imshow(obrazRGB)
 title('Obraz oryginalny')
 
-figure()
+figure(14)
 imshow(obrazModyfikowany)
 title('Obraz po modyfikacji')
 
@@ -186,7 +186,7 @@ mapaKolorow255 = parula(255); % Wybór mapy kolorów (np. parula)
 obrazPseudokolor255 = ind2rgb(obrazSzary, mapaKolorow255);
 
 % Wyświetlanie obrazów
-figure()
+figure(15)
 subplot(2, 3, 1)
 imshow(obrazSzary)
 title('Obraz w odcieniach szarości')
@@ -229,7 +229,7 @@ obrazWyodrebniony = obrazRGB;
 obrazWyodrebniony(repmat(~maskaCzerwony,[1,1,3])) = 0;
 
 % Wyświetlanie obrazów
-figure()
+figure(16)
 subplot(1, 2, 1)
 imshow(obrazRGB)
 title('Obraz oryginalny')
@@ -246,7 +246,7 @@ title('Wyodrębniony kolor czerwony')
 obrazSzary = rgb2gray(obrazRGB);
 
 % Wyświetlenie obrazu przed regulacją kontrastu
-figure()
+figure(17)
 subplot(1, 3, 1)
 imshow(obrazSzary)
 title('Obraz przed regulacją kontrastu')
@@ -273,9 +273,8 @@ subplot(1, 3, 3)
 imshow(obrazSkorygowany2)
 title('Obrazy po regulacji kontrastu2')
 
-
 % Wyświetlenie histogramu przed korekcją
-figure()
+figure(18)
 subplot(1, 2, 1)
 imhist(obrazSzary)
 title('Histogram przed korekcją')
@@ -290,7 +289,7 @@ imhist(obrazSkorygowany)
 title('Histogram po korekcji gamma')
 
 % Wyświetlenie obrazów
-figure()
+figure(19)
 subplot(1, 2, 1)
 imshow(obrazSzary)
 title('Obraz przed korekcją')
@@ -308,7 +307,7 @@ color_diff = imabsdiff(obrazRGB, obrazModyfikowany);
 color_diff2 = deltaE(obrazRGB, obrazModyfikowany);
 
 % Wyświetlenie różnicy kolorów
-figure()
+figure(20)
 subplot(1, 2, 1)
 imshow(color_diff);
 title('Różnica kolorów (imabsdiff)');

@@ -84,6 +84,10 @@ middlelinewidth=1pt,
 % DŁUGIE LISTINGI
 \newenvironment{longlisting}{\captionsetup{type=listing}}{}
 
+\newcounter{licznikFigure}
+\newcommand{\CC}{\refstepcounter{licznikFigure}\caption*{figure \thelicznikFigure}}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% TU SIE ZACZYNA PISANIE PLIKU %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,6 +95,9 @@ middlelinewidth=1pt,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}%zaczyna się dokument
+
+% Numer rysynku
+
 
 \null%
 \includepdf[pages={1}]{Szablon_Projektu.pdf}
@@ -121,55 +128,69 @@ Czwarta część kodu skupia się na modyfikacji kontrastu obrazu. Zaczyna się 
 
 \begin{figure}[H]
     \centering\includegraphics[width=1\linewidth]{kod/my_figure1.pdf}
-    \label{fig:my_figure1.pdf}
+    \CC\label{fig:my_figure1.pdf}
 \end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure2.pdf}\label{fig:my_figure2.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure2.pdf}\CC\label{fig:my_figure2.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure3.pdf}\label{fig:my_figure3.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure3.pdf}\CC\label{fig:my_figure3.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure4.pdf}\label{fig:my_figure4.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure4.pdf}\CC\label{fig:my_figure4.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure5.pdf}\label{fig:my_figure5.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure5.pdf}\CC\label{fig:my_figure5.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure6.pdf}\label{fig:my_figure6.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure6.pdf}\CC\label{fig:my_figure6.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure7.pdf}\label{fig:my_figure7.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure7.pdf}\CC\label{fig:my_figure7.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure8.pdf}\label{fig:my_figure8.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure8.pdf}\CC\label{fig:my_figure8.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure9.pdf}\label{fig:my_figure9.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure9.pdf}\CC\label{fig:my_figure9.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure10.pdf}\label{fig:my_figure10.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure10.pdf}\CC\label{fig:my_figure10.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure11.pdf}\label{fig:my_figure11.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure11.pdf}\CC\label{fig:my_figure11.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure12.pdf}\label{fig:my_figure12.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure12.pdf}\CC\label{fig:my_figure12.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure13.pdf}\label{fig:my_figure13.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure13.pdf}\CC\label{fig:my_figure13.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure14.pdf}\label{fig:my_figure14.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure14.pdf}\CC\label{fig:my_figure14.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure15.pdf}\label{fig:my_figure15.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure15.pdf}\CC\label{fig:my_figure15.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure16.pdf}\label{fig:my_figure16.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure16.pdf}\CC\label{fig:my_figure16.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure17.pdf}\label{fig:my_figure17.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure17.pdf}\CC\label{fig:my_figure17.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure18.pdf}\label{fig:my_figure18.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure18.pdf}\CC\label{fig:my_figure18.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure19.pdf}\label{fig:my_figure19.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure19.pdf}\CC\label{fig:my_figure19.pdf}\end{figure}
 
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure20.pdf}\label{fig:my_figure20.pdf}\end{figure}
+\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure20.pdf}\CC\label{fig:my_figure20.pdf}\end{figure}
 
 \section{Wnioski}
 
+Realizacja tego ćwiczenia pozwala studentowi wyciągnąć następujące wnioski dotyczące obróbki obrazów:
+
 \begin{enumerate}
-    \item \textbf{Obróbka obrazów RGB w MATLABie:} Przedstawiony kod demonstruje różne techniki obróbki obrazów RGB, takie jak zmiana nasycenia, konwersja do innych przestrzeni barwnych, konwersja do odcieni szarości, modyfikacja kanałów barwnych, pseudokolorowanie oraz wyodrębnianie wybranych kolorów.
-    \item \textbf{Przestrzenie barwne:} Kod pokazuje, jak można skonwertować obrazy RGB do innych przestrzeni barwnych, takich jak HSV, Lab i YCbCr. Każda przestrzeń barwna dostarcza różne informacje na temat barwy, nasycenia i jasności.
-    \item \textbf{Analiza obrazów:} Przedstawiony kod pokazuje, jak przeprowadzić analizę obrazów, taką jak wyświetlanie profilu barwnego RGB dla wybranego fragmentu obrazu oraz pomiar różnicy kolorów między obrazami.
-    \item \textbf{Korekcja kontrastu:} Kod przedstawia różne metody regulacji kontrastu obrazu, takie jak regulacja za pomocą funkcji imadjust oraz korekcja gamma. Porównanie histogramów przed i po korekcji kontrastu może pomóc w ocenie skuteczności tych technik.
-    \item \textbf{Użycie funkcji MATLABa:} Przedstawiony kod wykorzystuje różne funkcje dostępne w MATLABie do przetwarzania i analizy obrazów, takie jak imread, rgb2gray, ind2rgb, imadjust, imabsdiff itp. Zrozumienie i umiejętność korzystania z tych funkcji może być przydatne przy pracy z obrazami w MATLABie.
+    \item Istnieje wiele przestrzeni barwnych, takich jak HSV, Lab, YCbCr, które oferują różne sposoby reprezentacji kolorów. Przełączanie się między tymi przestrzeniami może być przydatne w różnych zastosowaniach, takich jak analiza, przetwarzanie lub manipulacja obrazem.
+    
+    \item Konwersja obrazu RGB na odcienie szarości (grayscale) jest jednym ze sposobów redukcji informacji barwnych, pozwalającym skupić się na strukturze i jasności obrazu.
+    
+    \item Profil barwny RGB dla wybranego obiektu/fragmentu obrazu umożliwia analizę średnich wartości pikseli dla poszczególnych kanałów barwnych. Może być używany do charakterystyki barwy danego obiektu i porównywania go z innymi obiektami.
+    
+    \item Modyfikacja kanałów barwnych, takich jak dodawanie, odejmowanie, mnożenie itp., pozwala na manipulację kolorami obrazu i uzyskanie różnych efektów wizualnych.
+    
+    \item Pseudokolorowanie obrazów pozwala na przypisanie kolorów do wartości odcieni szarości, co może ułatwić percepcję różnic w intensywnościach pikseli.
+    
+    \item Wyodrębnianie określonych kolorów na obrazie może być użyteczne w analizie obrazów i wyodrębnianiu obiektów o konkretnych cechach barwnych.
+    
+    \item Regulacja kontrastu obrazu może poprawić jego jakość wizualną i uwypuklić szczegóły w obrazie. Różne wartości parametrów regulacji kontrastu mogą prowadzić do różnych efektów wizualnych.
+    
+    \item Pomiar różnicy kolorów z wykorzystaniem funkcji deltaE i imcolordiff pozwala na analizę różnic pomiędzy dwoma obrazami lub ich fragmentami. Może być przydatne w analizie kolorystycznej, porównywaniu obrazów lub identyfikacji różnic między nimi.
 \end{enumerate}
+
+Ogólnie rzecz biorąc, to ćwiczenie pozwala studentowi na zdobycie praktycznego doświadczenia w obróbce obrazów, eksploracji różnych przestrzeni barwnych, regulacji kontrastu, wyodrębnianiu kolorów i analizie różnic kolorystycznych. Jest to cenne w zrozumieniu podstawowych technik przetwarzania obrazów i ich zastosowań w różnych dziedzinach.
 
 \end{document}
