@@ -93,103 +93,151 @@ middlelinewidth=1pt,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{document}%zaczyna się dokument
+\begin{document}
 
-% Numer rysynku
-
-
-\null%
+\null
 \includepdf[pages={1}]{Szablon_Projektu.pdf}
-\clearpage%następna strona ogółem
+\newpage
 
-\tableofcontents%spis treści
-% \clearpage
+\tableofcontents
+% \newpage
 
-\section{Cel ćwiczenia}%sekcja
-Celem ćwiczenia jest przybliżenie możliwości wykorzystywania biblioteki Image Processing Toolbox (IPT) do przetwarzania i analizy informacji o barwie zawartej w obrazie cyfrowym. Zakres laboratorium obejmuje: konwertowanie obrazów cyfrowych do innej przestrzeni barw (opisu w rożnych modelach barwnych), pseudokolorowanie, praktyczne wykorzystanie wybranych metod i technik analizy barwnej obrazów cyfrowych.
+\section{Cel i zakres ćwiczenia}
+Celem ćwiczenia jest zapoznanie studentów z działaniem systemu \texttt{roslaunch}.
 
+W ramach ćwiczenia zapoznamy się z:
+\begin{itemize}
+    \item mapowaniem nazw,
+    \item ustawianiem parametrów,
+    \item tworzeniem plików \texttt{.launch},
+    \item narzędziem \texttt{rosbag}.
+\end{itemize}
 
-\section{Kod}
-\begin{longlisting}
-    \inputminted{matlab}{kod/PSIO3x.m}
-\end{longlisting}
+\section{Przebieg ćwiczenia}
+\textbf{Pierwsze zadanie} polegało na tworzeniu wielu węzłów pochodzących z wielu paczek. Tworzenie węzłów służy do skonfigurowania wielu programów oraz ich parametrów. Do procesu uruchamiania stosu ROS jest wykorzystywane narzędzie \texttt{roslaunch}. \texttt{Roslaunch} automatycznie konfiguruje węzły i parametry systemu w oparciu o ustawienia zapisane w plikach XML z rozszerzeniem \texttt{.launch}.
 
-
-Pierwsza część kodu dotyczy wyświetlania rozkładu składowych barw RGB we współrzędnych 3D dla obrazu dog.jpg. Początkowo, kod wczytuje obraz i wyodrębnia składowe czerwony (R), zielony (G) i niebieski (B) do osobnych zmiennych. Następnie, tworzy mapy kolorów dla każdej składowej barwy. Wartość nasycenia Z jest następnie używana do redukcji nasycenia dla każdej składowej barwy, co skutkuje obrazami z zredukowanym nasyceniem dla składowych R, G, i B\@. Te obrazy są następnie wyświetlane jako wykresy przestrzenne. 
-
-W drugiej części kodu, obraz RGB jest konwertowany do trzech różnych reprezentacji barwnych: HSV, Lab, i YCbCr. Te konwersje są użyteczne, ponieważ różne modele barwne mogą lepiej reprezentować pewne aspekty obrazu, takie jak percepcyjna jasność, nasycenie lub odcień. Wynikowe obrazy są następnie wyświetlane. 
-
-Trzecia część kodu obejmuje kilka operacji na obrazie barwnym. Obraz jest najpierw konwertowany do obrazu w odcieniach szarości. Następnie, jest tworzony profil barwny RGB dla wybranego fragmentu obrazu. Wybrany kanał barwny jest modyfikowany (w tym przypadku, poprzez dodanie wartości do kanału czerwonego), a następnie obrazy są skalowane z powrotem do obrazu RGB i wyświetlane. Kolejnym krokiem jest pseudokolorowanie obrazu dla dwóch różnych liczby kolorów (64 i 255), przy użyciu dwóch różnych map kolorów (parula i jet). Na końcu, z obrazu wyodrębniany jest wybrany kolor (w tym przypadku czerwony). 
-
-Czwarta część kodu skupia się na modyfikacji kontrastu obrazu. Zaczyna się od konwersji obrazu do obrazu w odcieniach szarości. Następnie, obraz jest wyświetlany przed regulacją kontrastu. Kontrast jest regulowany dla różnych wartości parametrów za pomocą funkcji imadjust. Na końcu, obrazy po regulacji kontrastu są wyświetlane.
-
-\section{Wyniki}
-
-\begin{figure}[H]
-    \centering\includegraphics[width=1\linewidth]{kod/my_figure1.pdf}
-    \CC\label{fig:my_figure1.pdf}
-\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure2.pdf}\CC\label{fig:my_figure2.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure3.pdf}\CC\label{fig:my_figure3.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure4.pdf}\CC\label{fig:my_figure4.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure5.pdf}\CC\label{fig:my_figure5.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure6.pdf}\CC\label{fig:my_figure6.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure7.pdf}\CC\label{fig:my_figure7.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure8.pdf}\CC\label{fig:my_figure8.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure9.pdf}\CC\label{fig:my_figure9.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure10.pdf}\CC\label{fig:my_figure10.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure11.pdf}\CC\label{fig:my_figure11.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure12.pdf}\CC\label{fig:my_figure12.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure13.pdf}\CC\label{fig:my_figure13.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure14.pdf}\CC\label{fig:my_figure14.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure15.pdf}\CC\label{fig:my_figure15.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure16.pdf}\CC\label{fig:my_figure16.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure17.pdf}\CC\label{fig:my_figure17.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure18.pdf}\CC\label{fig:my_figure18.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure19.pdf}\CC\label{fig:my_figure19.pdf}\end{figure}
-
-\begin{figure}[H]\centering\includegraphics[width=0.9\linewidth]{kod/my_figure20.pdf}\CC\label{fig:my_figure20.pdf}\end{figure}
-
-\section{Wnioski}
-
-Realizacja tego ćwiczenia pozwala studentowi wyciągnąć następujące wnioski dotyczące obróbki obrazów:
-
+Do tworzenia węzłów można wykorzystać dwa sposoby:
 \begin{enumerate}
-    \item Istnieje wiele przestrzeni barwnych, takich jak HSV, Lab, YCbCr, które oferują różne sposoby reprezentacji kolorów. Przełączanie się między tymi przestrzeniami może być przydatne w różnych zastosowaniach, takich jak analiza, przetwarzanie lub manipulacja obrazem.
-    
-    \item Konwersja obrazu RGB na odcienie szarości (grayscale) jest jednym ze sposobów redukcji informacji barwnych, pozwalającym skupić się na strukturze i jasności obrazu.
-    
-    \item Profil barwny RGB dla wybranego obiektu/fragmentu obrazu umożliwia analizę średnich wartości pikseli dla poszczególnych kanałów barwnych. Może być używany do charakterystyki barwy danego obiektu i porównywania go z innymi obiektami.
-    
-    \item Modyfikacja kanałów barwnych, takich jak dodawanie, odejmowanie, mnożenie itp., pozwala na manipulację kolorami obrazu i uzyskanie różnych efektów wizualnych.
-    
-    \item Pseudokolorowanie obrazów pozwala na przypisanie kolorów do wartości odcieni szarości, co może ułatwić percepcję różnic w intensywnościach pikseli.
-    
-    \item Wyodrębnianie określonych kolorów na obrazie może być użyteczne w analizie obrazów i wyodrębnianiu obiektów o konkretnych cechach barwnych.
-    
-    \item Regulacja kontrastu obrazu może poprawić jego jakość wizualną i uwypuklić szczegóły w obrazie. Różne wartości parametrów regulacji kontrastu mogą prowadzić do różnych efektów wizualnych.
-    
-    \item Pomiar różnicy kolorów z wykorzystaniem funkcji deltaE i imcolordiff pozwala na analizę różnic pomiędzy dwoma obrazami lub ich fragmentami. Może być przydatne w analizie kolorystycznej, porównywaniu obrazów lub identyfikacji różnic między nimi.
+    \item ręczny, czyli wpisywanie w terminalu,
+    \item Pliki \texttt{.launch}, czyli wpisanie plików do konfiguracji zapisywane w formacie XML.
 \end{enumerate}
 
-Ogólnie rzecz biorąc, to ćwiczenie pozwala studentowi na zdobycie praktycznego doświadczenia w obróbce obrazów, eksploracji różnych przestrzeni barwnych, regulacji kontrastu, wyodrębnianiu kolorów i analizie różnic kolorystycznych. Jest to cenne w zrozumieniu podstawowych technik przetwarzania obrazów i ich zastosowań w różnych dziedzinach.
+\textbf{Zadanie Układ źródło + regulator + obiekt}
+
+Napisz plik \texttt{.launch} tak, aby utworzyć układ jak na rysunku poniżej. Ustaw parametry węzłów, a następnie pokaż graf systemu (w narzędziu \texttt{rqt\_graph}) oraz przebiegi poszczególnych sygnałów (w narzędziu \texttt{rqt\_plot} lub \texttt{rqt\_gui}). Wypróbuj różne nastawy regulatorów dla wybranych parametrów i typu obiektu (całkujący lub inercjalny) przy zmianie wartości zadanej.
+
+Powyższe zadanie zostało wykonane na dwa sposoby. Pierwszy sposób, ręczne wprowadzenie danych do terminalu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image1.png}
+    \caption{Uruchomienie programu z źródłem}
+\end{figure}
+
+Poniżej widać na rys. 2 uruchomienie sumatora gdzie została nadana wartość k2 = -1, aby wykonać sprzężenie zwrotne.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image2.png}
+    \caption{Uruchomienie programu sumator}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image3.png}
+    \caption{Uruchomienie programu regulatora}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image4.png}
+    \caption{Uruchomienie programu obiektu}
+\end{figure}
+
+Następnie został wywołany graf do wyświetlenia węzłów. Na powyższych komendach do uruchamiania programów rys. 2, rys. 3 oraz rys. 4, można zauważyć ustawianie parametrów dla zmiennych wejściowych i wyjściowych. Dzięki temu można utworzyć węzły zobrazowane na grafie rys. 6.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image5.png}
+    \caption{Funkcja do wywołania grafu}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image6.png}
+    \caption{Graf zaimplementowanych elementów}
+\end{figure}
+
+Sprawdzenie działania programu oraz wykreślenie przy pomocy programu \texttt{rqt\_plot} wykresu obserwowanych wartości przedstawione jest na rys. 7. Poprzez komendę \texttt{rqt\_plot}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{image7.png}
+    \caption{Wykres działania węzłów}
+\end{figure}
+
+Kolejnym etapem było stworzenie pliku \texttt{.launch}, czyli pliku do wpisania konfiguracji węzłów. Tym razem zostało wykorzystane źródło o stałej wartości oraz regulator PID.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image8.png}
+    \includegraphics[width=0.9\linewidth]{image9.png}
+    \caption{Plik \texttt{.launch}}
+\end{figure}
+
+Komendą \texttt{roslaunch} \texttt{miejsce\_zapisu} \texttt{nazwa\_pliku} został uruchomiony plik.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image10.png}
+    \caption{Uruchomienie \texttt{launch}}
+\end{figure}
+
+Poniżej na rys. 10 jest przedstawiony graf węzłów. Stworzony z konfiguracją pliku \texttt{launch}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image11.png}
+    \caption{Uruchomienie \texttt{launch}}
+\end{figure}
+
+Poniższy wykres jest o stałej wartości, wynika to z zastosowania źródła o stałej wartości.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{image12.png}
+    \caption{Uruchomiony wykres działania}
+\end{figure}
+
+Zostało również przetestowane inne źródło ramp, czyli sygnał liniowo narastający. Tym razem został wykorzystany regulator PI.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image13.png}
+    \caption{Plik \texttt{.launch} z innymi nastawami}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{image14.png}
+    \caption{Przedstawiony graf}
+\end{figure}
+
+Poniższe wykresy rys. 14 oraz rys. 15 przedstawiają działanie powyższego układu. Można zauważyć, że zmienne wraz z czasem zwiększają swoją wartość.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{image15.png}
+    \caption{Przedstawiony wykres w czasie od około 2s do 3,5s}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{image16.png}
+    \caption{Przedstawiony wykres w czasie od około 4,2s do 5,2s}
+\end{figure}
+
+\section{Wnioski}
+Cel ćwiczenia został zrealizowany. Ćwiczenie to pokazuje łączenie kilku programów w jeden układ. Jest to pomocne, kiedy musimy powiązać ze sobą kilka komend w różnych plikach. Istnieją różne możliwości - jedna ręczna z terminala, a druga za pomocą pliku \texttt{launch}. Ten drugi według mnie jest o wiele korzystniejszy ze względu na łatwą możliwość konfiguracji i zamiany danych.
 
 \end{document}
