@@ -1,0 +1,117 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZpc{} Usunięcie wszystkich zmiennych z przestrzeni roboczej, zamknięcie wszystkich otwartych okien}
+\PYG{n+nb}{clc}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{close}\PYG{+w}{ }\PYG{l+s}{all}\PYG{p}{;}
+
+\PYG{c}{\PYGZpc{} Wczytanie obrazu}
+\PYG{n}{Im}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{imread}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Im.jpg\PYGZsq{}}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Konwersja obrazu do skali szarości}
+\PYG{n}{Im\PYGZus{}gray}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{rgb2gray}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Konwersja obrazu RGB do obrazu indeksowanego}
+\PYG{p}{[}\PYG{n}{Im\PYGZus{}ind}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cmap}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{rgb2ind}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{2048}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} a}
+\PYG{c}{\PYGZpc{} Wykreślenie histogramu obrazu w skali szarości}
+\PYG{n+nb}{histogram}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Binaryzacja obrazu}
+\PYG{n}{BW1}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{im2bw}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.65}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{BW2}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{im2bw}\PYG{p}{(}\PYG{n}{Im\PYGZus{}ind}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cmap}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.65}\PYG{p}{);}
+\PYG{n}{BW3}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{im2bw}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.65}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Wyświetlenie wyników binaryzacji}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BW1}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}(Im, 0.65)\PYGZsq{}}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BW2}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}(Im ind, cmap, 0.65)\PYGZsq{}}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BW3}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}(Im gray, 0.65)\PYGZsq{}}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} b}
+\PYG{c}{\PYGZpc{} Binaryzacja obrazu za pomocą różnych metod}
+\PYG{n}{BIN1}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{);}
+\PYG{n}{BIN2}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}global\PYGZsq{}}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{BIN2\PYGZus{}a}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}adaptive\PYGZsq{}}\PYG{p}{);}
+\PYG{n}{BIN3}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.6}\PYG{p}{);}
+\PYG{n}{BIN4}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}adaptive\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}Sensitivity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}ForegroundPolarity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}dark\PYGZsq{}}\PYG{p}{);}
+\PYG{n}{BIN4\PYGZus{}b}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}adaptive\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}Sensitivity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.5}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}ForegroundPolarity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}bright\PYGZsq{}}\PYG{p}{);}
+\PYG{n}{BIN4\PYGZus{}3}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}adaptive\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}Sensitivity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}ForegroundPolarity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}dark\PYGZsq{}}\PYG{p}{);}
+\PYG{n}{BIN4\PYGZus{}7}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}adaptive\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}Sensitivity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mf}{0.7}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}ForegroundPolarity\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZsq{}dark\PYGZsq{}}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Wyświetlenie wyników binaryzacji}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN1}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{} domyslne dzialanie imbinarize\PYGZsq{}}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN2}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{} metoda globalna \PYGZsq{}}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN2\PYGZus{}a}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{} metoda adaptacyjna \PYGZsq{}}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN3}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{} granica 0.6\PYGZsq{}}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN4}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{([}\PYG{l+s}{\PYGZsq{} metoda adaptacyjna, wspolczynnik \PYGZsq{}}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}czulosci 0.5, piksele tla ciemne  \PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN4\PYGZus{}b}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{([}\PYG{l+s}{\PYGZsq{} metoda adaptacyjna, wspolczynnik \PYGZsq{}}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}czulosci 0.5, piksele tla jasne  \PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN4\PYGZus{}3}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{([}\PYG{l+s}{\PYGZsq{} metoda adaptacyjna, wspolczynnik \PYGZsq{}}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}czulosci 0.3, piksele tla ciemne  \PYGZsq{}}\PYG{p}{]);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BIN4\PYGZus{}7}\PYG{p}{(:,:,}\PYG{l+m+mi}{1}\PYG{p}{));}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{([}\PYG{l+s}{\PYGZsq{} metoda adaptacyjna, wspolczynnik \PYGZsq{}}\PYG{+w}{ }\PYG{k}{...}
+\PYG{+w}{    }\PYG{l+s}{\PYGZsq{}czulosci 0.7, piksele tla ciemne  \PYGZsq{}}\PYG{p}{]);}
+
+\PYG{c}{\PYGZpc{} c}
+\PYG{c}{\PYGZpc{} Wyznaczenie progu binaryzacji za pomocą metody Otsu}
+\PYG{n}{level}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{graythresh}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{);}\PYG{+w}{ }\PYG{c}{\PYGZpc{} 0.635}
+
+\PYG{c}{\PYGZpc{} Binaryzacja obrazu z wykorzystaniem wyznaczonego progu}
+\PYG{n}{BW\PYGZus{}gray}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imbinarize}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{,}\PYG{n}{level}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Wyświetlenie wyniku}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{BW\PYGZus{}gray}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}z graythresh\PYGZsq{}}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} d1}
+\PYG{c}{\PYGZpc{} Modyfikacja obrazu w skali szarości za pomocą progowania na poziomie pikseli}
+\PYG{n}{sizeim}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{size}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{);}
+\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{Im\PYGZus{}gray}\PYG{p}{;}
+\PYG{k}{for}\PYG{+w}{ }\PYG{n+nb}{i}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{sizeim}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{n+nb}{j}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{sizeim}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{l+m+mi}{200}\PYG{p}{)}
+\PYG{+w}{            }\PYG{k}{for}\PYG{+w}{ }\PYG{n}{k}\PYG{p}{=}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{5}
+\PYG{+w}{                }\PYG{n}{kk}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{o}{\PYGZhy{}}\PYG{n}{k}\PYG{p}{;}
+\PYG{+w}{                }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{kk}\PYG{o}{*}\PYG{l+m+mi}{20}
+\PYG{+w}{                    }\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{100}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{kk}\PYG{o}{*}\PYG{l+m+mi}{20}\PYG{p}{;}
+\PYG{+w}{                    }\PYG{k}{break}
+\PYG{+w}{                }\PYG{k}{end}
+\PYG{+w}{            }\PYG{k}{end}
+\PYG{+w}{        }\PYG{k}{end}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{k}{end}
+
+\PYG{c}{\PYGZpc{} Wyświetlenie wyniku oraz histogramu}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{p}{);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{histogram}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{grid}\PYG{+w}{ }\PYG{l+s}{on}
+
+\PYG{c}{\PYGZpc{} d2}
+\PYG{c}{\PYGZpc{} Wyznaczenie histogramu oraz najczęściej występującej wartości natężenia}
+\PYG{p}{[}\PYG{n}{pixelCounts}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{grayLevels}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{imhist}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{);}
+\PYG{p}{[}\PYG{o}{\PYGZti{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{idx}\PYG{p}{]}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{pixelCounts}\PYG{p}{(:));}
+
+\PYG{c}{\PYGZpc{} Progowanie obrazu na podstawie najczęściej występującej wartości natężenia}
+\PYG{n}{l\PYGZus{}lim}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{idx}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{idx}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{r\PYGZus{}lim}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{idx}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{idx}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mf}{0.3}\PYG{p}{);}
+\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{n}{Im\PYGZus{}gray}\PYG{p}{;}
+\PYG{k}{for}\PYG{+w}{ }\PYG{n+nb}{i}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{sizeim}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{n+nb}{j}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{n}{sizeim}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k}{if}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{l\PYGZus{}lim}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{r\PYGZus{}lim}\PYG{p}{)}
+\PYG{+w}{            }\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{else}
+\PYG{+w}{            }\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{p}{(}\PYG{n+nb}{i}\PYG{p}{,}\PYG{n+nb}{j}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{end}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{k}{end}
+
+\PYG{c}{\PYGZpc{} Wyświetlenie wyniku oraz histogramu}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{]);}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{histogram}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray\PYGZus{}bin2}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{grid}\PYG{+w}{ }\PYG{l+s}{on}
+
+\PYG{c}{\PYGZpc{} 2}
+\PYG{c}{\PYGZpc{} Wyrównanie histogramu}
+\PYG{n}{Im\PYGZus{}wyr}\PYG{+w}{ }\PYG{p}{=}\PYG{+w}{  }\PYG{n}{histeq}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{);}
+
+\PYG{c}{\PYGZpc{} Wyświetlenie obrazu oryginalnego, po wyrównaniu histogramu oraz histogramu obrazu po wyrównaniu}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{Im\PYGZus{}gray}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Orginal\PYGZsq{}}\PYG{p}{)}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{imshow}\PYG{p}{(}\PYG{n}{Im\PYGZus{}wyr}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nb}{title}\PYG{p}{(}\PYG{l+s}{\PYGZsq{}Po histeq\PYGZsq{}}\PYG{p}{)}
+\PYG{n+nb}{figure}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{histogram}\PYG{p}{(}\PYG{n}{Im\PYGZus{}wyr}\PYG{p}{);}\PYG{+w}{ }\PYG{n}{grid}\PYG{+w}{ }\PYG{l+s}{on}
+\end{Verbatim}

@@ -9,7 +9,7 @@
 \usepackage{graphicx} % wstawianie zdjęć
 % \usepackage[utf8]{inputenc} % niepotrzebne bo lualatex
 \usepackage[T1]{fontenc} % niepotrzebne bo lualatex
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,
+\usepackage[left=2cm,right=2cm,top=1.5cm,bottom=1.5cm, footskip=0.5cm,
 columnsep=1.5cm % odstęp między kolumnami
 ]{geometry}%marginesy
 
@@ -102,142 +102,246 @@ middlelinewidth=1pt,
 \tableofcontents
 % \newpage
 
-\section{Cel i zakres ćwiczenia}
-Celem ćwiczenia jest zapoznanie studentów z działaniem systemu \texttt{roslaunch}.
+\section{Cel ćwiczenia}
+Celem ćwiczenia jest poznanie znaczenia binaryzacji w praktyce przetwarzania i analizy obrazów. Nabycie praktycznych umiejętności: stosowania odpowiednik technik i metod binaryzacji oraz opisu własności histogramów obrazu cyfrowego. Zapoznanie się z podstawowymi przekształceniami kontekstowymi obrazów głównie z przekształceniami morfologicznymi.
 
-W ramach ćwiczenia zapoznamy się z:
-\begin{itemize}
-    \item mapowaniem nazw,
-    \item ustawianiem parametrów,
-    \item tworzeniem plików \texttt{.launch},
-    \item narzędziem \texttt{rosbag}.
-\end{itemize}
+\section{Zadania do realizacji}
 
-\section{Przebieg ćwiczenia}
-\textbf{Pierwsze zadanie} polegało na tworzeniu wielu węzłów pochodzących z wielu paczek. Tworzenie węzłów służy do skonfigurowania wielu programów oraz ich parametrów. Do procesu uruchamiania stosu ROS jest wykorzystywane narzędzie \texttt{roslaunch}. \texttt{Roslaunch} automatycznie konfiguruje węzły i parametry systemu w oparciu o ustawienia zapisane w plikach XML z rozszerzeniem \texttt{.launch}.
+\begin{zadanie}
+    Wczytać dowolny obraz (RGB) a następnie przekształcić go do postaci obrazu binarnego:
 
-Do tworzenia węzłów można wykorzystać dwa sposoby:
+    \begin{enumerate} \item BW = im2bw(I, level), BW = im2bw(X, map, level), BW = im2bw(RGB, level) level- poziom/próg binaryzacji określić na podstawie histogramu obrazu w odcieniach szarości -nasycenie/odcień szarości o największej liczbie pikseli (ponadto opisać jakie informacje są zawarte na histogramie) \item BW=imbinarize(I), BW=imbinarize(I,method), BW=imbinarize(I,T), BW= imbinarize(I,`adaptive',Name,Value) \item dla obrazu w odcieniach szarości wykorzystać funkcję graythresh \item dla obrazu w odcieniach szarości dokonać binaryzacji: \item na podstawie wartości z zakresu +/-30\% nasycenia/odcieni szarości o największej liczbie pikseli --- wartość progu oszacowana na podstawie histogramu (binaryzacja z podwójnym ograniczeniem) \item * podziel obraz na 16 bloków, dla każdego bloku wyznacz wartość progu binaryzacji i przeprowadź binaryzację, następnie scal obraz. Uzasadnij dobór progu binaryzacji. Opisz wyniki. \end{enumerate}
+\end{zadanie}
+
+
+
+
+\begin{zadanie}
+    Dla wybranego obrazu dokonać wyrównywania histogramu (funkcja histeq). Przedstawić i opisać różnice w odniesieniu do oryginalnego obrazu i jego histogramu oraz obrazu oryginalnego (całego) po operacji wyrównywania histogramu.
+\end{zadanie}
+
+
+\begin{zadanie}
+    Operacje morfologiczne. Stwórz obraz w dowolnym programie graficznym, na którym są takie elementy jak: zatoczki w obiektach, inicjały (po trzy pierwsze litery imienia i nazwiska wybranej osoby z grupy), wypustki dla dowolnego obiektu, dwa stykające obiekty, kilka obiektów o różnym kolorze, kształcie i wielkości.
+
 \begin{enumerate}
-    \item ręczny, czyli wpisywanie w terminalu,
-    \item Pliki \texttt{.launch}, czyli wpisanie plików do konfiguracji zapisywane w formacie XML.
+    \item za pomocą funkcji `strel' wygenerować 4 wybranych elementów strukturalnych. Opisać je skrótowo, przedstawić obrazy i postać macierzową. sel=strel(`pair', [2,-1]); figure; imshow(getnhood(sel),`InitialMagnification', `fit'); 
+    \item dla uzyskanego obrazu dokonać operacji: erozji, dylatacji, zamknięcia, otwarcia z uwzględnieniem doboru elementu strukturalnego (pokazać na rysunku, opisać, uzasadnić); 
+    \item dla wybranego fragmentu obrazu - inicjały (do wycięcia można użyć funkcji imcrop) dokonać operacji binaryzacji, a następnie wyznaczyć gradient morfologiczny tj.: - różnicę między obrazem wejściowym, a wynikiem jego erozji; - różnicę między wynikiem dylatacji, a obrazem wejściowym; - połowę różnicy między wynikiem dylatacji, a erozji.
 \end{enumerate}
 
-\textbf{Zadanie Układ źródło + regulator + obiekt}
+\end{zadanie}
 
-Napisz plik \texttt{.launch} tak, aby utworzyć układ jak na rysunku poniżej. Ustaw parametry węzłów, a następnie pokaż graf systemu (w narzędziu \texttt{rqt\_graph}) oraz przebiegi poszczególnych sygnałów (w narzędziu \texttt{rqt\_plot} lub \texttt{rqt\_gui}). Wypróbuj różne nastawy regulatorów dla wybranych parametrów i typu obiektu (całkujący lub inercjalny) przy zmianie wartości zadanej.
+\section{Zrealizowane zadania}
 
-Powyższe zadanie zostało wykonane na dwa sposoby. Pierwszy sposób, ręczne wprowadzenie danych do terminalu.
+\begin{rozwiazanie}
+    
+    \begin{longlisting}
+        \begin{minted}{matlab}
+% Usunięcie wszystkich zmiennych z przestrzeni roboczej, zamknięcie wszystkich otwartych okien
+clc; close all;
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image1.png}
-    \caption{Uruchomienie programu z źródłem}
-\end{figure}
+% Wczytanie obrazu
+Im = imread('Im.jpg');
 
-Poniżej widać na rys. 2 uruchomienie sumatora gdzie została nadana wartość k2 = -1, aby wykonać sprzężenie zwrotne.
+% Konwersja obrazu do skali szarości
+Im_gray = rgb2gray(Im);
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image2.png}
-    \caption{Uruchomienie programu sumator}
-\end{figure}
+% Konwersja obrazu RGB do obrazu indeksowanego
+[Im_ind, cmap] = rgb2ind(Im, 2048);
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image3.png}
-    \caption{Uruchomienie programu regulatora}
-\end{figure}
+% a
+% Wykreślenie histogramu obrazu w skali szarości
+histogram(Im_gray);
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image4.png}
-    \caption{Uruchomienie programu obiektu}
-\end{figure}
+% Binaryzacja obrazu
+BW1 = im2bw(Im, 0.65); BW2 = im2bw(Im_ind, cmap, 0.65);
+BW3 = im2bw(Im_gray, 0.65);
 
-Następnie został wywołany graf do wyświetlenia węzłów. Na powyższych komendach do uruchamiania programów rys. 2, rys. 3 oraz rys. 4, można zauważyć ustawianie parametrów dla zmiennych wejściowych i wyjściowych. Dzięki temu można utworzyć węzły zobrazowane na grafie rys. 6.
+% Wyświetlenie wyników binaryzacji
+figure; imshow(BW1); title('(Im, 0.65)');
+figure; imshow(BW2); title('(Im ind, cmap, 0.65)');
+figure; imshow(BW3); title('(Im gray, 0.65)');
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image5.png}
-    \caption{Funkcja do wywołania grafu}
-\end{figure}
+% b
+% Binaryzacja obrazu za pomocą różnych metod
+BIN1 = imbinarize(Im);
+BIN2 = imbinarize(Im, 'global'); BIN2_a = imbinarize(Im, 'adaptive');
+BIN3 = imbinarize(Im, 0.6);
+BIN4 = imbinarize(Im, 'adaptive', 'Sensitivity', 0.5, ...
+    'ForegroundPolarity', 'dark');
+BIN4_b = imbinarize(Im, 'adaptive', 'Sensitivity', 0.5, ...
+    'ForegroundPolarity', 'bright');
+BIN4_3 = imbinarize(Im, 'adaptive', 'Sensitivity', 0.3, ...
+    'ForegroundPolarity', 'dark');
+BIN4_7 = imbinarize(Im, 'adaptive', 'Sensitivity', 0.7, ...
+    'ForegroundPolarity', 'dark');
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image6.png}
-    \caption{Graf zaimplementowanych elementów}
-\end{figure}
+% Wyświetlenie wyników binaryzacji
+figure; imshow(BIN1(:,:,1)); title(' domyslne dzialanie imbinarize');
+figure; imshow(BIN2(:,:,1)); title(' metoda globalna ');
+figure; imshow(BIN2_a(:,:,1)); title(' metoda adaptacyjna ');
+figure; imshow(BIN3(:,:,1)); title(' granica 0.6');
+figure; imshow(BIN4(:,:,1)); title([' metoda adaptacyjna, wspolczynnik ' ...
+    'czulosci 0.5, piksele tla ciemne  ']);
+figure; imshow(BIN4_b(:,:,1)); title([' metoda adaptacyjna, wspolczynnik ' ...
+    'czulosci 0.5, piksele tla jasne  ']);
+figure; imshow(BIN4_3(:,:,1)); title([' metoda adaptacyjna, wspolczynnik ' ...
+    'czulosci 0.3, piksele tla ciemne  ']);
+figure; imshow(BIN4_7(:,:,1)); title([' metoda adaptacyjna, wspolczynnik ' ...
+    'czulosci 0.7, piksele tla ciemne  ']);
 
-Sprawdzenie działania programu oraz wykreślenie przy pomocy programu \texttt{rqt\_plot} wykresu obserwowanych wartości przedstawione jest na rys. 7. Poprzez komendę \texttt{rqt\_plot}.
+% c
+% Wyznaczenie progu binaryzacji za pomocą metody Otsu
+level = graythresh(Im_gray); % 0.635
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{image7.png}
-    \caption{Wykres działania węzłów}
-\end{figure}
+% Binaryzacja obrazu z wykorzystaniem wyznaczonego progu
+BW_gray = imbinarize(Im_gray,level);
 
-Kolejnym etapem było stworzenie pliku \texttt{.launch}, czyli pliku do wpisania konfiguracji węzłów. Tym razem zostało wykorzystane źródło o stałej wartości oraz regulator PID.
+% Wyświetlenie wyniku
+figure; imshow(BW_gray); title('z graythresh');
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image8.png}
-    \includegraphics[width=0.9\linewidth]{image9.png}
-    \caption{Plik \texttt{.launch}}
-\end{figure}
+% d1
+% Modyfikacja obrazu w skali szarości za pomocą progowania na poziomie pikseli
+sizeim = size(Im_gray);
+Im_gray_bin = Im_gray;
+for i = 1:sizeim(1)
+    for j = 1:sizeim(2)
+        if(Im_gray_bin(i,j) > 100 && Im_gray_bin(i,j) < 200)
+            for k=0:5
+                kk = 5-k;
+                if Im_gray_bin(i,j) > 100 + kk*20
+                    Im_gray_bin(i,j) = 100 + kk*20;
+                    break
+                end
+            end
+        end
+    end
+end
 
-Komendą \texttt{roslaunch} \texttt{miejsce\_zapisu} \texttt{nazwa\_pliku} został uruchomiony plik.
+% Wyświetlenie wyniku oraz histogramu
+figure; imshow(Im_gray_bin);
+figure; histogram(Im_gray_bin); grid on
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image10.png}
-    \caption{Uruchomienie \texttt{launch}}
-\end{figure}
+% d2
+% Wyznaczenie histogramu oraz najczęściej występującej wartości natężenia
+[pixelCounts, grayLevels] = imhist(Im_gray);
+[~, idx] = max(pixelCounts(:));
 
-Poniżej na rys. 10 jest przedstawiony graf węzłów. Stworzony z konfiguracją pliku \texttt{launch}.
+% Progowanie obrazu na podstawie najczęściej występującej wartości natężenia
+l_lim = idx - (idx * 0.3); r_lim = idx + (idx * 0.3);
+Im_gray_bin2 = Im_gray;
+for i = 1:sizeim(1)
+    for j = 1:sizeim(2)
+        if(Im_gray_bin2(i,j) > l_lim && Im_gray_bin2(i,j) < r_lim)
+            Im_gray_bin2(i,j) = 1;
+        else
+            Im_gray_bin2(i,j) = 0;
+        end
+    end
+end
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image11.png}
-    \caption{Uruchomienie \texttt{launch}}
-\end{figure}
+% Wyświetlenie wyniku oraz histogramu
+figure; imshow(Im_gray_bin2, [0 1]);
+figure; histogram(Im_gray_bin2); grid on
 
-Poniższy wykres jest o stałej wartości, wynika to z zastosowania źródła o stałej wartości.
+% 2
+% Wyrównanie histogramu
+Im_wyr =  histeq(Im_gray);
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{image12.png}
-    \caption{Uruchomiony wykres działania}
-\end{figure}
+% Wyświetlenie obrazu oryginalnego, po wyrównaniu histogramu oraz histogramu obrazu po wyrównaniu
+figure; imshow(Im_gray); title('Orginal')
+figure; imshow(Im_wyr); title('Po histeq')
+figure; histogram(Im_wyr); grid on
+        \end{minted}
+        
+    \end{longlisting}Ten kod MATLAB-a jest używany do przetwarzania obrazu. Po wczytaniu obrazu, wykonuje szereg operacji, w tym konwersję do skali szarości, binaryzację obrazu za pomocą różnych technik, wyznaczanie progu binaryzacji za pomocą metody Otsu, modyfikację obrazu w skali szarości przez progowanie na poziomie pikseli, wyrównanie histogramu i prezentację wyników na histogramach i jako obrazy.
+\end{rozwiazanie}
+\begin{rozwiazanie}
+    
 
-Zostało również przetestowane inne źródło ramp, czyli sygnał liniowo narastający. Tym razem został wykorzystany regulator PI.
+\begin{longlisting}
+    \begin{minted}{matlab}
+% Usuwanie wszystkich zmiennych z przestrzeni roboczej, czyszczenie konsoli i zamknięcie wszystkich otwartych okien
+clc; clear all; close all;
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image13.png}
-    \caption{Plik \texttt{.launch} z innymi nastawami}
-\end{figure}
+% Wczytanie obrazu
+obr1 = imread("obraz1.jpg");
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{image14.png}
-    \caption{Przedstawiony graf}
-\end{figure}
+%% Operacje morfologiczne
+close all;
+obr3 = imread('obraz3.png');
 
-Poniższe wykresy rys. 14 oraz rys. 15 przedstawiają działanie powyższego układu. Można zauważyć, że zmienne wraz z czasem zwiększają swoją wartość.
+% Tworzenie struktur elementarnych
+prostokat = strel('rectangle',[16,16]);
+diament = strel('diamond',8);
+dysk = strel('disk',8);
+oktagon = strel('octagon',9);
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{image15.png}
-    \caption{Przedstawiony wykres w czasie od około 2s do 3,5s}
-\end{figure}
+% Wyświetlanie struktur elementarnych
+figure();
+subplot(2, 2, 1), imshow(getnhood(prostokat), 'InitialMagnification', 'fit') , title('prostokat');
+subplot(2, 2, 2), imshow(getnhood(diament), 'InitialMagnification', 'fit') ;title('diament');
+subplot(2, 2, 3), imshow(getnhood(dysk), 'InitialMagnification', 'fit') ;title('dysk');
+subplot(2, 2, 4), imshow(getnhood(oktagon), 'InitialMagnification', 'fit') ;title('oktagon');
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{image16.png}
-    \caption{Przedstawiony wykres w czasie od około 4,2s do 5,2s}
-\end{figure}
+%% Tworzenie operacji erozji, dylatacji, zamknięcia i otwarcia
+close all; clc;
+obr2 = imread('obraz3.png'); % Wczytanie obrazu "obr2"
+
+% Tworzenie struktury elementarnej typu "disk" o rozmiarze 3
+se = strel('disk', 3);
+
+% Erozja
+ero_obr2 = imerode(obr2, se);
+
+% Dylatacja
+dyl_obr2 = imdilate(obr2, se);
+
+% Zamknięcie
+zamk_obr2 = imclose(obr2, se);
+
+% Otwarcie
+otw_obr2 = imopen(obr2, se);
+
+% Wyświetlanie obrazów i ich operacji
+figure(),imshow(obr2), title('Obraz "obr2"');
+figure(),imshow(ero_obr2), title('Erozja');
+figure(),imshow(dyl_obr2), title('Dylatacja');
+figure(),imshow(zamk_obr2), title('Zamknięcie');
+figure(),imshow(otw_obr2), title('Otwarcie');
+
+%% Wyznaczanie gradientu morfologicznego
+inicjaly = imcrop(obr3, [1150, 40, 400 , 210]);
+%1152,40 - 1550,250
+figure; imshow(inicjaly); title('Obraz oryginalny')
+
+% Erozja
+inicjaly_e = imerode(inicjaly, dysk);
+
+% Dylatacja
+inicjaly_d = imdilate(inicjaly, dysk);
+
+% Wyświetlanie obrazów po erozji i dylatacji
+figure(); imshow(inicjaly_d), title('dylatacja');
+figure(); imshow(inicjaly_e), title('erozja')
+
+% Obliczanie gradientu morfologicznego różnymi metodami
+A = inicjaly - inicjaly_e;
+B = inicjaly_d - inicjaly;
+C = 0.5 * (inicjaly_d - inicjaly_e);
+
+% Wyświetlanie gradientów morfologicznych
+figure; imshow(A); title(' wej - erozja ')
+figure; imshow(B); title(' dylatacja - wej ')
+figure; imshow(C); title(' dylatacja - erozja ')
+
+    \end{minted}
+\end{longlisting}Kod ten demonstruje podstawowe operacje morfologiczne na obrazach, takie jak erozja, dylatacja, otwarcie i zamknięcie, a także oblicza gradient morfologiczny obrazu. Operacje te są często używane w przetwarzaniu obrazów do różnych celów, takich jak usuwanie szumów, separacja obiektów, ekstrakcja krawędzi itp.
+\end{rozwiazanie}
+
 
 \section{Wnioski}
-Cel ćwiczenia został zrealizowany. Ćwiczenie to pokazuje łączenie kilku programów w jeden układ. Jest to pomocne, kiedy musimy powiązać ze sobą kilka komend w różnych plikach. Istnieją różne możliwości - jedna ręczna z terminala, a druga za pomocą pliku \texttt{launch}. Ten drugi według mnie jest o wiele korzystniejszy ze względu na łatwą możliwość konfiguracji i zamiany danych.
+Podsumowując, histogram jest ważnym narzędziem w przetwarzaniu obrazów, umożliwiającym między innymi wyznaczanie granicy binarnizacji. W tym kontekście, metoda Otsu jest wykorzystywana do znajdowania optymalnej granicy, a dołek na histogramie pomiędzy dwoma wzniesieniami ułatwia tę pracę. Zastosowano tutaj funkcje dostępne w środowisku Matlab: im2bw i imbinarize do binaryzacji obrazu oraz graythresh do wyznaczania granicy. Prowadzone przekształcenia obrazu, takie jak progowanie, mogą przynosić interesujące efekty wizualne i ograniczać ilość używanych odcieni, co jest dobrze widoczne na histogramach. Również wyrównanie histogramu może znacznie poprawić kontrast obrazu. Dyskutowano też operacje morfologiczne, takie jak erozja i dylatacja, które choć proste w swej naturze, potrafią wygenerować wyraźne efekty. Istotnym elementem jest tutaj dobór odpowiednich elementów strukturalnych, które różnią się w zależności od kierunku (np. poziome vs pionowe). Te operacje mogą służyć do usuwania szumów, bez usuwania cennych informacji z obrazu. Omówiono także operacje otwarcia i zamknięcia, które mogą być użyte do wypełniania nieciągłości figur. Proste operacje liniowe z wynikami erozji i dylatacji mogą w efekcie tworzyć kontury na obrazie. Istnieje możliwość manipulacji, by wygenerować kontury wewnętrzne (poprzez odjęcie erozji od oryginału) lub zewnętrzne (poprzez odjęcie dylatacji od oryginału).
 
 \end{document}
